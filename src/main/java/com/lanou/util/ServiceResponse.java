@@ -60,7 +60,8 @@ public class ServiceResponse<T> implements Serializable {
     public static <T> ServiceResponse createSuccess(String msg, T data){
         return new ServiceResponse(0,msg,data);
     }
-    public static <T> ServiceResponse createSuccess(String msg){
+
+    public static ServiceResponse createSuccess(String msg){
         return new ServiceResponse(0,msg);
     }
 }

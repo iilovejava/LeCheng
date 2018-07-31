@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- 显示错误信息 -->
-	${msg }
+	${msg}
 	<form action="http://localhost:8080/user/reg" method="post">
 		手机:<input type="text" name="userphone"><br>
 		密码:<input type="text" name="userpassword"><br>

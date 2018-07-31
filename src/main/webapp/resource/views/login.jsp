@@ -26,10 +26,10 @@
 <form action="http://localhost:8080/user/login" method="post">
     手机:<input type="text" name="userphone"><br/>
     密码:<input type="text" name="userpassword"><br/>
-    自动登录:<input type="checkbox" name="autologin"><br/>
-    验证码:<input type="text" name="code">
+    验证:<input type="text" name="code"><br/>
     <img src="/Code" onclick="changeCode()">
     <a href="javascript:changeCode()">看不清楚</a><br/>
+    自动登录:<input type="checkbox" name="autologin">
     <input type="submit" value="提交">
 </form>
 </body>

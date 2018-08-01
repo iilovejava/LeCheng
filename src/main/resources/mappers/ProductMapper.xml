@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanou.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.Product" >
+    <id column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="productUrl" property="producturl" jdbcType="VARCHAR" />
+    <result column="productDes" property="productdes" jdbcType="VARCHAR" />
+    <result column="cateId" property="cateid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, productName, des, productUrl, productDes, cateId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lanou.model.Product" >
+    insert into product (productId, productName, des, 
+      productUrl, productDes, cateId
+      )
+    values (#{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, 
+      #{producturl,jdbcType=VARCHAR}, #{productdes,jdbcType=VARCHAR}, #{cateid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanou.model.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="des != null" >
+        des,
+      </if>
+      <if test="producturl != null" >
+        productUrl,
+      </if>
+      <if test="productdes != null" >
+        productDes,
+      </if>
+      <if test="cateid != null" >
+        cateId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="producturl != null" >
+        #{producturl,jdbcType=VARCHAR},
+      </if>
+      <if test="productdes != null" >
+        #{productdes,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null" >
+        #{cateid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Product" >
+    update product
+    <set >
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="producturl != null" >
+        productUrl = #{producturl,jdbcType=VARCHAR},
+      </if>
+      <if test="productdes != null" >
+        productDes = #{productdes,jdbcType=VARCHAR},
+      </if>
+      <if test="cateid != null" >
+        cateId = #{cateid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Product" >
+    update product
+    set productName = #{productname,jdbcType=VARCHAR},
+      des = #{des,jdbcType=VARCHAR},
+      productUrl = #{producturl,jdbcType=VARCHAR},
+      productDes = #{productdes,jdbcType=VARCHAR},
+      cateId = #{cateid,jdbcType=INTEGER}
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+
+  <!-- 根据分类查询 -->
+  <select id="selectProductsByCateId" resultType="Product">
+      select * from product
+      where cateId = #{0}
+  </select>
+</mapper>

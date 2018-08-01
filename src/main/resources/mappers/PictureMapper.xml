@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanou.dao.PictureMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.Picture" >
+    <id column="picId" property="picid" jdbcType="INTEGER" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
+    <result column="proId" property="proid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    picId, picUrl, proId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from picture
+    where picId = #{picid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from picture
+    where picId = #{picid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lanou.model.Picture" >
+    insert into picture (picId, picUrl, proId
+      )
+    values (#{picid,jdbcType=INTEGER}, #{picurl,jdbcType=VARCHAR}, #{proid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanou.model.Picture" >
+    insert into picture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="picid != null" >
+        picId,
+      </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
+      <if test="proid != null" >
+        proId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="picid != null" >
+        #{picid,jdbcType=INTEGER},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="proid != null" >
+        #{proid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Picture" >
+    update picture
+    <set >
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="proid != null" >
+        proId = #{proid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where picId = #{picid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Picture" >
+    update picture
+    set picUrl = #{picurl,jdbcType=VARCHAR},
+      proId = #{proid,jdbcType=INTEGER}
+    where picId = #{picid,jdbcType=INTEGER}
+  </update>
+  <!-- 根据proId查询 -->
+  <select id="selectPicture" resultType="Picture">
+    select * from picture
+    where proId = #{0}
+  </select>
+</mapper>

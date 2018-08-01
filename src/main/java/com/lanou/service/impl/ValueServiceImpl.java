@@ -1,7 +1,8 @@
-package com.lanou.service;
+package com.lanou.service.impl;
 
 import com.lanou.dao.ValueMapper;
 import com.lanou.model.Value;
+import com.lanou.service.ValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

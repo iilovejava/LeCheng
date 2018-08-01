@@ -1,12 +1,13 @@
-package com.lanou.service;
+package com.lanou.service.impl;
 
 import com.lanou.dao.CategoryMapper;
 import com.lanou.model.Category;
+import com.lanou.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("categoryService")
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;

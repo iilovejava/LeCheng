@@ -28,7 +28,8 @@
 	<!--拦截器-->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+			<mvc:mapping path="/user/*"/>
+
 			<mvc:exclude-mapping path="/user/login"/>
 			<mvc:exclude-mapping path="/user/reg"/>
             <mvc:exclude-mapping path="/user/test"/>

@@ -91,8 +91,11 @@ public class UserController {
                 }
                 // 将cookie添加到响应中
                 response.addCookie(cookie);
-                session.setAttribute("user", user);
-//
+                int i = userService.selectIdByUser(user);
+                user.setUserid(i);
+
+            session.setAttribute("user", user);
+
 
                 return ServiceResponse.createSuccess("登录成功", user);
 //            } else {

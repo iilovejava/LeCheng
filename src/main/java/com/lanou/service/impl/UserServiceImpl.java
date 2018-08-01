@@ -47,4 +47,12 @@ public class UserServiceImpl implements UserService{
         return ServiceResponse.createSuccess("登录成功",user1);
     }
 
+    // 根据手机号查ID
+    public int selectIdByUser(User user) {
+        String userphone = user.getUserphone();
+        int id = userMapper.selectIdByUser(userphone);
+        return id;
+
+    }
+
 }

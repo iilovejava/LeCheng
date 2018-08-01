@@ -139,4 +139,8 @@
     <select id="selectByPhoneAndPassword" parameterType="User" resultType="User">
     SELECT * FROM users WHERE  userphone = #{userphone} AND userpassword = #{userpassword}
     </select>
+    <!--查询id-->
+    <select id="selectIdByUser" parameterType="String" resultType="int">
+        SELECT userId FROM users WHERE  userphone = #{userphone}
+    </select>
 </mapper>

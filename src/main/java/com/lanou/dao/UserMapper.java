@@ -21,4 +21,6 @@ public interface UserMapper {
     User findUserByPhone(String userPhone);
     // 登录
     User selectByPhoneAndPassword(User user);
+    // 查询id
+    int selectIdByUser(String userphone);
 }

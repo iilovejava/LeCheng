@@ -1,8 +1,6 @@
 package com.lanou.dao;
 
 import com.lanou.model.User;
-import org.springframework.stereotype.Repository;
-
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userid);
@@ -17,11 +15,10 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    // 用户注册
+    // 用户注册 
     int userRegister(User user);
-    // 查询手机号是否存在
+    // 查询手机号是否存在 
     User findUserByPhone(String userPhone);
-    // 用户登录
+    // 登录
     User selectByPhoneAndPassword(User user);
-
 }

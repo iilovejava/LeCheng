@@ -31,6 +31,7 @@
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/user/login"/>
 			<mvc:exclude-mapping path="/user/reg"/>
+            <mvc:exclude-mapping path="/user/test"/>
 			<bean class="com.lanou.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

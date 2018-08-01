@@ -3,11 +3,17 @@ package com.lanou.model;
 public class User {
     private Integer userid;
 
-    private String username;
+    private String userphone;
 
     private String userpassword;
 
-    private String userphone;
+    private String username;
+
+    private Integer usergender;
+
+    private String userbirthday;
+
+    private Integer userqq;
 
     private String useraddress;
 
@@ -19,12 +25,12 @@ public class User {
         this.userid = userid;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserphone() {
+        return userphone;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setUserphone(String userphone) {
+        this.userphone = userphone == null ? null : userphone.trim();
     }
 
     public String getUserpassword() {
@@ -35,12 +41,36 @@ public class User {
         this.userpassword = userpassword == null ? null : userpassword.trim();
     }
 
-    public String getUserphone() {
-        return userphone;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserphone(String userphone) {
-        this.userphone = userphone;
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public Integer getUsergender() {
+        return usergender;
+    }
+
+    public void setUsergender(Integer usergender) {
+        this.usergender = usergender;
+    }
+
+    public String getUserbirthday() {
+        return userbirthday;
+    }
+
+    public void setUserbirthday(String userbirthday) {
+        this.userbirthday = userbirthday == null ? null : userbirthday.trim();
+    }
+
+    public Integer getUserqq() {
+        return userqq;
+    }
+
+    public void setUserqq(Integer userqq) {
+        this.userqq = userqq;
     }
 
     public String getUseraddress() {
@@ -49,16 +79,5 @@ public class User {
 
     public void setUseraddress(String useraddress) {
         this.useraddress = useraddress == null ? null : useraddress.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userid=" + userid +
-                ", username='" + username + '\'' +
-                ", userpassword='" + userpassword + '\'' +
-                ", userphone='" + userphone + '\'' +
-                ", useraddress='" + useraddress + '\'' +
-                '}';
     }
 }

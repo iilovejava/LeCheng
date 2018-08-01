@@ -1,114 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lanou.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.lanou.model.User" >
-    <id column="userId" property="userid" jdbcType="INTEGER" />
-    <result column="userName" property="username" jdbcType="VARCHAR" />
-    <result column="userPassword" property="userpassword" jdbcType="VARCHAR" />
-    <result column="userPhone" property="userphone" jdbcType="INTEGER" />
-    <result column="userAddress" property="useraddress" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    userId, userName, userPassword, userPhone, userAddress
+<mapper namespace="com.lanou.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.lanou.model.User">
+        <id column="userId" property="userid" jdbcType="INTEGER"/>
+        <result column="userPhone" property="userphone" jdbcType="VARCHAR"/>
+        <result column="userPassword" property="userpassword" jdbcType="VARCHAR"/>
+        <result column="userName" property="username" jdbcType="VARCHAR"/>
+        <result column="userGender" property="usergender" jdbcType="INTEGER"/>
+        <result column="userBirthday" property="userbirthday" jdbcType="VARCHAR"/>
+        <result column="userQQ" property="userqq" jdbcType="INTEGER"/>
+        <result column="userAddress" property="useraddress" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    userId, userPhone, userPassword, userName, userGender, userBirthday, userQQ, userAddress
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from users
-    where userId = #{userid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        where userId = #{userid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from users
     where userId = #{userid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lanou.model.User" >
-    insert into users (userId, userName, userPassword, 
-      userPhone, userAddress)
-    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpassword,jdbcType=VARCHAR}, 
-      #{userphone,jdbcType=INTEGER}, #{useraddress,jdbcType=VARCHAR})
+    <insert id="insert" parameterType="com.lanou.model.User">
+    insert into users (userId, userPhone, userPassword, 
+      userName, userGender, userBirthday, 
+      userQQ, userAddress)
+    values (#{userid,jdbcType=INTEGER}, #{userphone,jdbcType=VARCHAR}, #{userpassword,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{usergender,jdbcType=INTEGER}, #{userbirthday,jdbcType=VARCHAR}, 
+      #{userqq,jdbcType=INTEGER}, #{useraddress,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lanou.model.User" >
-    insert into users
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        userId,
-      </if>
-      <if test="username != null" >
-        userName,
-      </if>
-      <if test="userpassword != null" >
-        userPassword,
-      </if>
-      <if test="userphone != null" >
-        userPhone,
-      </if>
-      <if test="useraddress != null" >
-        userAddress,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userpassword != null" >
-        #{userpassword,jdbcType=VARCHAR},
-      </if>
-      <if test="userphone != null" >
-        #{userphone,jdbcType=INTEGER},
-      </if>
-      <if test="useraddress != null" >
-        #{useraddress,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.User" >
+    <insert id="insertSelective" parameterType="com.lanou.model.User">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                userId,
+            </if>
+            <if test="userphone != null">
+                userPhone,
+            </if>
+            <if test="userpassword != null">
+                userPassword,
+            </if>
+            <if test="username != null">
+                userName,
+            </if>
+            <if test="usergender != null">
+                userGender,
+            </if>
+            <if test="userbirthday != null">
+                userBirthday,
+            </if>
+            <if test="userqq != null">
+                userQQ,
+            </if>
+            <if test="useraddress != null">
+                userAddress,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+            <if test="userphone != null">
+                #{userphone,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="usergender != null">
+                #{usergender,jdbcType=INTEGER},
+            </if>
+            <if test="userbirthday != null">
+                #{userbirthday,jdbcType=VARCHAR},
+            </if>
+            <if test="userqq != null">
+                #{userqq,jdbcType=INTEGER},
+            </if>
+            <if test="useraddress != null">
+                #{useraddress,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.User">
+        update users
+        <set>
+            <if test="userphone != null">
+                userPhone = #{userphone,jdbcType=VARCHAR},
+            </if>
+            <if test="userpassword != null">
+                userPassword = #{userpassword,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                userName = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="usergender != null">
+                userGender = #{usergender,jdbcType=INTEGER},
+            </if>
+            <if test="userbirthday != null">
+                userBirthday = #{userbirthday,jdbcType=VARCHAR},
+            </if>
+            <if test="userqq != null">
+                userQQ = #{userqq,jdbcType=INTEGER},
+            </if>
+            <if test="useraddress != null">
+                userAddress = #{useraddress,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where userId = #{userid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lanou.model.User">
     update users
-    <set >
-      <if test="username != null" >
-        userName = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="userpassword != null" >
-        userPassword = #{userpassword,jdbcType=VARCHAR},
-      </if>
-      <if test="userphone != null" >
-        userPhone = #{userphone,jdbcType=INTEGER},
-      </if>
-      <if test="useraddress != null" >
-        userAddress = #{useraddress,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where userId = #{userid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.lanou.model.User" >
-    update users
-    set userName = #{username,jdbcType=VARCHAR},
+    set userPhone = #{userphone,jdbcType=VARCHAR},
       userPassword = #{userpassword,jdbcType=VARCHAR},
-      userPhone = #{userphone,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      userGender = #{usergender,jdbcType=INTEGER},
+      userBirthday = #{userbirthday,jdbcType=VARCHAR},
+      userQQ = #{userqq,jdbcType=INTEGER},
       userAddress = #{useraddress,jdbcType=VARCHAR}
     where userId = #{userid,jdbcType=INTEGER}
-  </update>
+    </update>
 
 
-
-  <!--用户注册-->
-  <insert id="userRegister" parameterType="User">
-        INSERT INTO users
-        (userPhone,userPassword)
-        VALUES
-        (#{userphone},#{userpassword})
-  </insert>
-  <!--查询手机号是否唯一-->
-  <select id="findUserByPhone" parameterType="String" resultType="User">
+    <!--注册-->
+    <insert id="userRegister" parameterType="User">
+        INSERT INTO users (userPhone,userPassword) VALUES (#{userphone},#{userpassword})
+    </insert>
+    <!--根据手机查询-->
+    <select id="findUserByPhone" parameterType="String" resultType="User">
         SELECT * FROM users WHERE userPhone = #{userphone}
-  </select>
-
-  <!-- 用户登录 -->
-  <select id="selectByPhoneAndPassword" parameterType="User" resultType="User">
-    SELECT * FROM  users
-    WHERE userPhone = #{userphone}
-    AND userPassword = #{userpassword}
-  </select>
+    </select>
+    <!--根据手机密码查询-->
+    <select id="selectByPhoneAndPassword" parameterType="User" resultType="User">
+    SELECT * FROM users WHERE  userphone = #{userphone} AND userpassword = #{userpassword}
+    </select>
 </mapper>

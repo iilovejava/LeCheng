@@ -102,5 +102,13 @@ public class UserController {
         session.invalidate();
         return ServiceResponse.createSuccess("汪汪汪");
     }
+    // 注销
+    @ResponseBody
+    @RequestMapping(value = "test")
+    public ServiceResponse<String> test(String name,HttpServletRequest request){
+        System.out.println("共和国嘎嘎嘎");
+        System.out.println(name);
+        return ServiceResponse.createSuccess("汪汪汪");
+    }
 
 }

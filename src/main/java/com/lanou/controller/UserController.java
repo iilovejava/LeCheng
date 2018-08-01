@@ -1,6 +1,9 @@
 package com.lanou.controller;
 
-import com.lanou.model.User;
+import com.lanou.model.*;
+import com.lanou.service.AreaService;
+import com.lanou.service.CityService;
+import com.lanou.service.ProvinceService;
 import com.lanou.service.UserService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by lanou on 2018/7/28.
@@ -25,6 +29,12 @@ import java.io.IOException;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProvinceService provinceService;
+    @Autowired
+    private CityService cityService;
+    @Autowired
+    private AreaService areaService;
 
     // 注册
     @ResponseBody
@@ -83,6 +93,7 @@ public class UserController {
                 response.addCookie(cookie);
                 session.setAttribute("user", user);
 //
+
                 return ServiceResponse.createSuccess("登录成功", user);
 //            } else {
 //                // 登录失败
@@ -105,13 +116,28 @@ public class UserController {
         return ServiceResponse.createSuccess("汪汪汪");
     }
 
-    // 注销
+
+    // 查询省份
     @ResponseBody
-    @RequestMapping(value = "test")
-    public ServiceResponse<String> test(String name, HttpServletRequest request) {
-        System.out.println("共和国嘎嘎嘎");
-        System.out.println(name);
-        return ServiceResponse.createSuccess("汪汪汪");
+    @RequestMapping(value = "allProvince")
+    public List<Province> findAll() {
+        List<Province> all = provinceService.findAll();
+        return all;
     }
 
+    // 查询城市
+    @ResponseBody
+    @RequestMapping(value = "allCity")
+    public List<City> findByCode(String code) {
+        List<City> all = cityService.findByCode(code);
+        return all;
+    }
+
+    // 查询县级市
+    @ResponseBody
+    @RequestMapping(value = "allArea")
+    public List<Area> findByArea(String code) {
+        List<Area> all = areaService.findByArea(code);
+        return all;
+    }
 }

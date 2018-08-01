@@ -61,7 +61,8 @@ public class UserController {
         // 获取生成的验证码
         HttpSession session = request.getSession();
         String s = (String) session.getAttribute("mycode");
-
+        System.out.println(s);
+        System.out.println(code);
         if (serviceResponse.getErrorcode() == 0) {
             // 判断验证码是否正确
             if (code.equals(s)) {

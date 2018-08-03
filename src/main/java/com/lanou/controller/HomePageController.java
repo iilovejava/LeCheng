@@ -21,17 +21,17 @@ public class HomePageController {
 
     @ResponseBody
     @RequestMapping(value = "homeCate")
-    public List<HomePage> findByParentId(Integer id) {
+    public ServiceResponse findByParentId(Integer id) {
         List<HomePage> list = indexService.findByParentId(id);
-//        if (list.size() == 0) {
-//            ServiceResponse serviceResponse = ServiceResponse.createError(200,"首页没有该模块");
-//            return  serviceResponse;
-//        } else {
-//            PageInfo pageInfo = new PageInfo(list);
-//            ServiceResponse serviceResponse = ServiceResponse.createSuccess("成功",pageInfo);
-//            return  serviceResponse;
-//        }
-        return list;
+        if (list.size() == 0) {
+            ServiceResponse serviceResponse = ServiceResponse.createError(200,"首页没有该模块");
+            return  serviceResponse;
+        } else {
+            PageInfo pageInfo = new PageInfo(list);
+            ServiceResponse serviceResponse = ServiceResponse.createSuccess("成功",pageInfo);
+            return  serviceResponse;
+        }
+
     }
 
 }

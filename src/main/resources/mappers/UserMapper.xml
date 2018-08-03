@@ -158,4 +158,11 @@
             useraddress = #{useraddress}
         where userid = #{userid}
     </update>
+
+    <update id="updatePassword" parameterType="User" >
+        update users
+        SET
+        userpassword = #{userpassword}
+        where userid = #{userid}
+    </update>
 </mapper>

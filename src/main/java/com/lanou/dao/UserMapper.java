@@ -26,5 +26,7 @@ public interface UserMapper {
     // 根据id查询
     User findById(Integer id);
     // 修改信息
-    User updateUser(User user);
+    boolean updateUser(User user);
+    // 修改密码
+    boolean updatePassword(User user);
 }

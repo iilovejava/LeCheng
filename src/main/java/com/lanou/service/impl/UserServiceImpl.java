@@ -62,8 +62,14 @@ public class UserServiceImpl implements UserService{
     }
 
     // 修改信息
-    public User updateUser(User user) {
-        User user1 = userMapper.updateUser(user);
+    public boolean updateUser(User user) {
+        boolean user1 = userMapper.updateUser(user);
+        return user1;
+    }
+
+    // 修改密码
+    public boolean updatePassword(User user) {
+        boolean user1 =userMapper.updatePassword(user);
         return user1;
     }
 }

@@ -1,10 +1,7 @@
 package com.lanou.controller;
 
 import com.lanou.model.*;
-import com.lanou.service.AreaService;
-import com.lanou.service.CityService;
-import com.lanou.service.ProvinceService;
-import com.lanou.service.UserService;
+import com.lanou.service.*;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +32,8 @@ public class UserController {
     private CityService cityService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private CommentService commentService;
 
     // 注册
     @ResponseBody
@@ -148,8 +147,58 @@ public class UserController {
     // 更新个人信息
     @ResponseBody
     @RequestMapping(value = "message")
-    public User message(User user){
-        User user1 = userService.updateUser(user);
-        return user1;
+    public ServiceResponse<String> message(User user){
+        boolean b = userService.updateUser(user);
+        if (b){
+            return ServiceResponse.createSuccess("修改成功");
+        }
+        return ServiceResponse.createError(1,"修改失败");
+    }
+
+    // 修改密码
+    @ResponseBody
+    @RequestMapping(value = "updatePassword")
+
+    public ServiceResponse<String> updatePassword(Integer userid,String newpassword,String newpassword2){
+        System.out.println(userid);
+        System.out.println(newpassword);
+        System.out.println(newpassword2);
+        if (newpassword.equals(newpassword2)){
+            User user = new User();
+            user.setUserid(userid);
+            user.setUserpassword(newpassword);
+            boolean b = userService.updatePassword(user);
+            if (b){
+                return ServiceResponse.createSuccess("修改成功");
+            }
+            return ServiceResponse.createError(1,"修改失败");
+
+        }
+
+        return ServiceResponse.createError(1,"两次密码输入不正确");
+    }
+
+    // 查询商品的评论
+    @ResponseBody
+    @RequestMapping(value = "comment")
+    public List<Comment> findComment(Integer productId) {
+        List<Comment> all = commentService.findComment(productId);
+        for (Comment comment : all) {
+            Integer userid = comment.getUserid();
+            User u = userService.findById(userid);
+            comment.setUser(u);
+        }
+        return all;
+    }
+
+    // 添加商品的评论
+    @ResponseBody
+    @RequestMapping(value = "addcomment")
+    public ServiceResponse<String> addComment(Comment comment) {
+        boolean all = commentService.addComment(comment);
+        if (all){
+            return ServiceResponse.createSuccess("评论成功");
+        }
+        return ServiceResponse.createError(1,"评论失败");
     }
 }

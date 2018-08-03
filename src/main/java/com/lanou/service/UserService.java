@@ -2,6 +2,7 @@ package com.lanou.service;
 
 import com.lanou.model.User;
 import com.lanou.util.ServiceResponse;
+import sun.jvm.hotspot.oops.Oop;
 
 /**
  * Created by lanou on 2018/7/28.
@@ -19,5 +20,7 @@ public interface UserService {
     // 根据id查询
     User findById(Integer id);
     // 修改信息
-    User updateUser(User user);
+    boolean updateUser(User user);
+    // 修改密码
+    boolean updatePassword(User user);
 }

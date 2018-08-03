@@ -18,4 +18,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     List<Product> selectProductsByCateId(Integer id);
+
+    List<Product> selectProductsLikeName(Product pro);
 }

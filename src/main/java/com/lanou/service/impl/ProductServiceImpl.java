@@ -1,6 +1,8 @@
 package com.lanou.service.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lanou.dao.ProductMapper;
 import com.lanou.model.Product;
 import com.lanou.service.ProductService;
@@ -20,5 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     public List<Product> selectProductsByCateId(Integer id) {
         return productMapper.selectProductsByCateId(id);
+    }
+
+    public List<Product> selectProductsLikeName(Product pro) {
+//        PageHelper.startPage(1,10);
+//        PageInfo info = new PageInfo(productMapper.selectProductsLikeName(pro));
+        List<Product> list = productMapper.selectProductsLikeName(pro);
+        return list;
     }
 }

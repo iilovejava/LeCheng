@@ -1,6 +1,7 @@
 package com.lanou.service;
 
 import com.lanou.model.Area;
+import com.lanou.model.Comment;
 
 import java.util.List;
 
@@ -9,4 +10,6 @@ import java.util.List;
  */
 public interface AreaService {
     List<Area> findByArea(String city);
+
+
 }

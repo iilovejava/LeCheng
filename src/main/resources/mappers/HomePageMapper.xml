@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lanou.dao.IndexMapper" >
-  <resultMap id="BaseResultMap" type="com.lanou.model.Index" >
+<mapper namespace="com.lanou.dao.HomePageMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.HomePage" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="des" property="des" jdbcType="VARCHAR" />
@@ -16,23 +16,23 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from index
+    from homepage
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from index
+    delete from homepage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lanou.model.Index" >
-    insert into index (id, name, des, 
+  <insert id="insert" parameterType="com.lanou.model.HomePage" >
+    insert into homepage (id, name, des, 
       picture, type, parentId, 
       proId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, 
       #{picture,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, 
       #{proid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.lanou.model.Index" >
-    insert into index
+  <insert id="insertSelective" parameterType="com.lanou.model.HomePage" >
+    insert into homepage
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -80,8 +80,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Index" >
-    update index
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.HomePage" >
+    update homepage
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -104,8 +104,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Index" >
-    update index
+  <update id="updateByPrimaryKey" parameterType="com.lanou.model.HomePage" >
+    update homepage
     set name = #{name,jdbcType=VARCHAR},
       des = #{des,jdbcType=VARCHAR},
       picture = #{picture,jdbcType=VARCHAR},
@@ -114,9 +114,10 @@
       proId = #{proid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <select id="findByParentId" resultMap="BaseResultMap" parameterType="Index">
-    select  * from index
+
+  <select id="findByParentId" resultType="HomePage" parameterType="Integer">
+    select * from homepage
     where parentId = #{0}
   </select>
+
 </mapper>

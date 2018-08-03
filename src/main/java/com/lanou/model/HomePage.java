@@ -2,7 +2,7 @@ package com.lanou.model;
 
 import java.util.List;
 
-public class Index {
+public class HomePage {
     private Integer id;
 
     private String name;
@@ -17,14 +17,24 @@ public class Index {
 
     private Integer proid;
 
-    private List<Index> childrenIndex;
+    private Product product;
 
-    public List<Index> getChildrenIndex() {
-        return childrenIndex;
+    private List<HomePage> childrenHomePage;
+
+    public List<HomePage> getChildrenHomePage() {
+        return childrenHomePage;
     }
 
-    public void setChildrenIndex(List<Index> childrenIndex) {
-        this.childrenIndex = childrenIndex;
+    public void setChildrenHomePage(List<HomePage> childrenHomePage) {
+        this.childrenHomePage = childrenHomePage;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Integer getId() {
@@ -85,7 +95,7 @@ public class Index {
 
     @Override
     public String toString() {
-        return "Index{" +
+        return "HomePage{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", des='" + des + '\'' +
@@ -93,7 +103,8 @@ public class Index {
                 ", type=" + type +
                 ", parentid=" + parentid +
                 ", proid=" + proid +
-                ", childrenIndex=" + childrenIndex +
+                ", product=" + product +
+                ", childrenHomePage=" + childrenHomePage +
                 '}';
     }
 }

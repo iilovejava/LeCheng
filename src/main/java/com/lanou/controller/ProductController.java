@@ -12,6 +12,7 @@ import com.lanou.service.ValueService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Controller
 @CrossOrigin
+@Repository
 @RequestMapping(value = "product")
 public class ProductController {
 
@@ -62,12 +64,12 @@ public class ProductController {
         Category category = categoryService.selectByPrimaryKey(id);
         // 根据分类的id获得对应的 该类拥有的attr属性
         List<Attr> list = attrService.selectByCateId(category.getCategoryid());
-        category.setAttrs(list);
         for (Attr attr : list) {
             // 获得attr属性中的属性值
             List<Value> valuelist = valueService.selectValuesByAttrId(attr.getId());
             attr.setValues(valuelist);
         }
+        category.setAttrs(list);
         return category;
     }
 

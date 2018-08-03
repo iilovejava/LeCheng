@@ -17,5 +17,5 @@ public interface PriceMapper {
 
     int updateByPrimaryKey(Price record);
 
-    List<Price> selectPrice(Integer id);
+    List<Price> selectPrice(Integer proId);
 }

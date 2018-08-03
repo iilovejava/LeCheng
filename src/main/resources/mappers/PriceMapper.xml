@@ -3,11 +3,14 @@
 <mapper namespace="com.lanou.dao.PriceMapper" >
   <resultMap id="BaseResultMap" type="com.lanou.model.Price" >
     <id column="priceId" property="priceid" jdbcType="INTEGER" />
-    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="focus" property="focus" jdbcType="VARCHAR" />
+    <result column="definition" property="definition" jdbcType="VARCHAR" />
+    <result column="combo" property="combo" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="proId" property="proid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    priceId, price, proId
+    priceId, focus, definition, combo, price, proId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,16 +23,25 @@
     where priceId = #{priceid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lanou.model.Price" >
-    insert into price (priceId, price, proId
-      )
-    values (#{priceid,jdbcType=INTEGER}, #{price,jdbcType=VARCHAR}, #{proid,jdbcType=INTEGER}
-      )
+    insert into price (priceId, focus, definition, 
+      combo, price, proId)
+    values (#{priceid,jdbcType=INTEGER}, #{focus,jdbcType=VARCHAR}, #{definition,jdbcType=VARCHAR}, 
+      #{combo,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.Price" >
     insert into price
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="priceid != null" >
         priceId,
+      </if>
+      <if test="focus != null" >
+        focus,
+      </if>
+      <if test="definition != null" >
+        definition,
+      </if>
+      <if test="combo != null" >
+        combo,
       </if>
       <if test="price != null" >
         price,
@@ -42,8 +54,17 @@
       <if test="priceid != null" >
         #{priceid,jdbcType=INTEGER},
       </if>
+      <if test="focus != null" >
+        #{focus,jdbcType=VARCHAR},
+      </if>
+      <if test="definition != null" >
+        #{definition,jdbcType=VARCHAR},
+      </if>
+      <if test="combo != null" >
+        #{combo,jdbcType=VARCHAR},
+      </if>
       <if test="price != null" >
-        #{price,jdbcType=VARCHAR},
+        #{price,jdbcType=DOUBLE},
       </if>
       <if test="proid != null" >
         #{proid,jdbcType=INTEGER},
@@ -53,8 +74,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Price" >
     update price
     <set >
+      <if test="focus != null" >
+        focus = #{focus,jdbcType=VARCHAR},
+      </if>
+      <if test="definition != null" >
+        definition = #{definition,jdbcType=VARCHAR},
+      </if>
+      <if test="combo != null" >
+        combo = #{combo,jdbcType=VARCHAR},
+      </if>
       <if test="price != null" >
-        price = #{price,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DOUBLE},
       </if>
       <if test="proid != null" >
         proId = #{proid,jdbcType=INTEGER},
@@ -64,7 +94,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanou.model.Price" >
     update price
-    set price = #{price,jdbcType=VARCHAR},
+    set focus = #{focus,jdbcType=VARCHAR},
+      definition = #{definition,jdbcType=VARCHAR},
+      combo = #{combo,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
       proId = #{proid,jdbcType=INTEGER}
     where priceId = #{priceid,jdbcType=INTEGER}
   </update>

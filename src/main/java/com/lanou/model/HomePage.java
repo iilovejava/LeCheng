@@ -17,8 +17,6 @@ public class HomePage {
 
     private Integer proid;
 
-    private Product product;
-
     private List<HomePage> childrenHomePage;
 
     public List<HomePage> getChildrenHomePage() {
@@ -27,14 +25,6 @@ public class HomePage {
 
     public void setChildrenHomePage(List<HomePage> childrenHomePage) {
         this.childrenHomePage = childrenHomePage;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public Integer getId() {
@@ -103,7 +93,6 @@ public class HomePage {
                 ", type=" + type +
                 ", parentid=" + parentid +
                 ", proid=" + proid +
-                ", product=" + product +
                 ", childrenHomePage=" + childrenHomePage +
                 '}';
     }

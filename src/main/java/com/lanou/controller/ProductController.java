@@ -103,13 +103,30 @@ public class ProductController {
         Category category = categoryService.selectByPrimaryKey(id);
         // 类中包含的商品
         List<Product> products = productService.selectProductsByCateId(id);
+        ArrayList<Product> list = new ArrayList<Product>();
+
         for (Product product : products) {
             // 商品详情化
-            selectProductByProId(product.getProductid());
+            Product product1 = selectProductByProId(product.getProductid());
+            list.add(product1);
         }
         // 将具体商品放入商品类
-        category.setProducts(products);
+        category.setProducts(list);
         return category;
+    }
+
+    // 查询所有商品
+    @ResponseBody
+    @RequestMapping(value = "all")
+    public List<Category> selecatAll() {
+        int[] array =  {1,2,3,4,5,6,7};
+        ArrayList<Category> list = new ArrayList<Category>();
+        for (int i : array) {
+
+            Category category = selectProductsByCateId(i);
+            list.add(category);
+        }
+        return list;
     }
 
 

@@ -143,4 +143,13 @@ public class UserController {
         List<Area> all = areaService.findByArea(code);
         return all;
     }
+
+
+    // 更新个人信息
+    @ResponseBody
+    @RequestMapping(value = "message")
+    public User message(User user){
+        User user1 = userService.updateUser(user);
+        return user1;
+    }
 }

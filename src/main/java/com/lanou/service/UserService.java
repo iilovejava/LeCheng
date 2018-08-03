@@ -16,4 +16,8 @@ public interface UserService {
     ServiceResponse<String> selectByPhoneAndPassword(User user);
     // 查询id
     int selectIdByUser(User user);
+    // 根据id查询
+    User findById(Integer id);
+    // 修改信息
+    User updateUser(User user);
 }

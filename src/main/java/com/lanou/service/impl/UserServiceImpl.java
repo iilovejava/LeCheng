@@ -55,4 +55,15 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    // 根据ID查询
+    public User findById(Integer id) {
+        User user = userMapper.findById(id);
+        return user;
+    }
+
+    // 修改信息
+    public User updateUser(User user) {
+        User user1 = userMapper.updateUser(user);
+        return user1;
+    }
 }

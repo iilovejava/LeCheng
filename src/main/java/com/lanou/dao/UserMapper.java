@@ -23,4 +23,8 @@ public interface UserMapper {
     User selectByPhoneAndPassword(User user);
     // 查询id
     int selectIdByUser(String userphone);
+    // 根据id查询
+    User findById(Integer id);
+    // 修改信息
+    User updateUser(User user);
 }

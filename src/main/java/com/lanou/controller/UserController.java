@@ -178,6 +178,7 @@ public class UserController {
         return ServiceResponse.createError(1,"两次密码输入不正确");
     }
 
+
     // 查询商品的评论
     @ResponseBody
     @RequestMapping(value = "comment")

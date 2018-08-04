@@ -138,7 +138,7 @@ public class ProductController {
         product.setProductname(string);
         List<Product> list = productService.selectProductsLikeName(product);
         // 创建集合接收结果集
-        ArrayList<Product> arrayList = new ArrayList<Product>();
+        ArrayList<Product> arrayList = new ArrayList();
         for (Product pro : list) {
             // 将具体商品放入arrayList
             arrayList.add(selectProductByProId(pro.getProductid()));

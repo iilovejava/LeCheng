@@ -3,11 +3,11 @@ package com.lanou.model;
 public class Price {
     private Integer priceid;
 
-    private String focus;
+    private String one;
 
-    private String definition;
+    private String two;
 
-    private String combo;
+    private String three;
 
     private Double price;
 
@@ -21,28 +21,28 @@ public class Price {
         this.priceid = priceid;
     }
 
-    public String getFocus() {
-        return focus;
+    public String getOne() {
+        return one;
     }
 
-    public void setFocus(String focus) {
-        this.focus = focus == null ? null : focus.trim();
+    public void setOne(String one) {
+        this.one = one == null ? null : one.trim();
     }
 
-    public String getDefinition() {
-        return definition;
+    public String getTwo() {
+        return two;
     }
 
-    public void setDefinition(String definition) {
-        this.definition = definition == null ? null : definition.trim();
+    public void setTwo(String two) {
+        this.two = two == null ? null : two.trim();
     }
 
-    public String getCombo() {
-        return combo;
+    public String getThree() {
+        return three;
     }
 
-    public void setCombo(String combo) {
-        this.combo = combo == null ? null : combo.trim();
+    public void setThree(String three) {
+        this.three = three == null ? null : three.trim();
     }
 
     public Double getPrice() {
@@ -60,6 +60,4 @@ public class Price {
     public void setProid(Integer proid) {
         this.proid = proid;
     }
-
-
 }

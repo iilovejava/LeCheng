@@ -6,7 +6,13 @@ import java.util.List;
 
 public interface CartItemService {
 
-    int addCartItem(CartItem cartItem);
+    // 查看购物车
+    List<CartItem> selectByUserId(Integer userid);
 
-    List<CartItem> selectCartByuserId(Integer userId);
+    // 更改
+    int updateItem(CartItem cartItem);
+
+    // 添加
+    int insert(CartItem record);
+
 }

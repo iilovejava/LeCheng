@@ -7,7 +7,7 @@ public class Category {
 
     private String categoryname;
 
-    private List<Attr> attrs;
+    //private List<Attr> attrs;
 
     private List<Product> products;
 
@@ -19,13 +19,13 @@ public class Category {
         this.products = products;
     }
 
-    public List<Attr> getAttrs() {
-        return attrs;
-    }
+//    public List<Attr> getAttrs() {
+//        return attrs;
+//    }
 
-    public void setAttrs(List<Attr> attrs) {
-        this.attrs = attrs;
-    }
+//    public void setAttrs(List<Attr> attrs) {
+//        this.attrs = attrs;
+//    }
 
     public Integer getCategoryid() {
         return categoryid;
@@ -48,7 +48,6 @@ public class Category {
         return "Category{" +
                 "categoryid=" + categoryid +
                 ", categoryname='" + categoryname + '\'' +
-                ", attrs=" + attrs +
                 ", products=" + products +
                 '}';
     }

@@ -20,7 +20,7 @@ public class ValueServiceImpl implements ValueService {
         return values;
     }
 
-    public List<Value> selectValuesByProId(Integer id) {
-        return mapper.selectValuesByProId(id);
+    public List<Value> selectValuesByProId(Value value) {
+        return mapper.selectValuesByProId(value);
     }
 }

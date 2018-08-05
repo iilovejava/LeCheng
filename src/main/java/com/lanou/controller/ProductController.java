@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lanou.dao.PictureMapper;
 import com.lanou.dao.PriceMapper;
 import com.lanou.dao.SaleMapper;
+import com.lanou.dao.XqPictureMapper;
 import com.lanou.model.*;
 import com.lanou.service.AttrService;
 import com.lanou.service.CategoryService;
@@ -32,6 +33,8 @@ public class ProductController {
     private PriceMapper priceMapper;
     @Autowired
     private PictureMapper pictureMapper;
+    @Autowired
+    private XqPictureMapper xqPictureMapper;
 
     @Autowired
     private AttrService attrService;
@@ -41,7 +44,6 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private ProductService productService;
-
 
 
     // 根据attrId查询对应的value值 放入attr
@@ -89,11 +91,16 @@ public class ProductController {
         List<Attr> attrs = selectValuesByCate(product.getProductid());
         // 将属性和属性值放入商品
         product.setAttrs(attrs);
+
+        Category category = categoryService.selectByPrimaryKey(product.getCateid());
+        product.setCate(category.getCategoryname());
+
         //  获取商品对应的 sale price 和 picture 放入商品
         List<Sale> sales = saleMapper.selectSale(id);
         product.setSales(sales);
         product.setPrices(priceMapper.selectPrice(id));
         product.setPictures(pictureMapper.selectPicture(id));
+        product.setXqPictures(xqPictureMapper.selectXqPic(id));
         return  product;
     }
 

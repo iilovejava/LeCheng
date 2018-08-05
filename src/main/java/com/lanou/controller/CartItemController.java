@@ -42,8 +42,7 @@ public class CartItemController {
     // 添加商品
     @ResponseBody
     @RequestMapping(value = "add")
-    public ServiceResponse addCartItem(String proname,String guige,Double price,Integer num,Double count,Integer proid,Integer userid) {
-
+    public ServiceResponse addCartItem(String proname,Double price,Integer num,Double count,Integer proid,Integer userid) {
         List<CartItem> items = cartItemService.selectByUserId(userid);
         // 遍利购物车
         for (CartItem item : items) {
@@ -62,7 +61,7 @@ public class CartItemController {
         }
         CartItem newItem = new CartItem();
         newItem.setProname(proname);
-        newItem.setGuige(guige);
+        //newItem.setGuige(guige);
         newItem.setPrice(price);
         newItem.setNum(num);
         newItem.setCount(count);
@@ -79,10 +78,10 @@ public class CartItemController {
         }
     }
 
-//    // 修改商品数量
+    // 修改商品数量
 //    @ResponseBody
-//    @RequestMapping(value = "update")
-//    public ServiceResponse updateItem(CartItem cartItem) {
+//    @RequestMapping(value = "jia")
+//    public ServiceResponse updateItem(Integer userid,Integer proid,Integer num) {
 //        CartItem item = cartItemService.selectItem(cartItem);
 //        int res = cartItemService.updateItem(item.getNum());
 //        if (res != 1) {
@@ -90,34 +89,38 @@ public class CartItemController {
 //        }
 //        return ServiceResponse.createSuccess("数量修改成功");
 //    }
-//
-//    // 移除商品
-//    @ResponseBody
-//    @RequestMapping(value = "delete")
-//    public ServiceResponse deleteItem(CartItem cartItem) {
-//        // 根据cart信息 得到id
-//        CartItem item = cartItemService.selectItem(cartItem);
-//
-//        int res = cartItemService.deleteItemById(item.getId());
-//        if (res != 1) {
-//            return ServiceResponse.createError(1,"商品移除失败");
-//        }
-//        return ServiceResponse.createSuccess("移除成功");
-//    }
-//
-//    // 清空购物车
-//    @ResponseBody
-//    @RequestMapping(value = "deleteAll")
-//    public ServiceResponse deleteAll(CartItem cartItem) {
-//         List<CartItem> items = cartItemService.selectCartByuserId(cartItem.getUserid());
-//        for (CartItem item : items) {
-//            deleteItem(item);
-//        }
-//        if (items == null) {
-//            return ServiceResponse.createError(1,"清空失败");
-//        } else {
-//            return ServiceResponse.createSuccess("清空购物车成功");
-//        }
-//    }
+
+
+    // 移除商品
+    @ResponseBody
+    @RequestMapping(value = "delete")
+    public ServiceResponse deleteItem(Integer userid,Integer proid) {
+
+        CartItem cartItem = new CartItem();
+        cartItem.setUserid(userid);
+        cartItem.setProid(proid);
+        CartItem item = cartItemService.selectItemByUidAndPid(cartItem);
+        // 根据id移除item
+        int res = cartItemService.deleteItemById(item.getId());
+        if (res != 1) {
+            return ServiceResponse.createError(1,"商品移除失败");
+        }
+        return ServiceResponse.createSuccess("移除成功");
+    }
+
+    // 清空购物车
+    @ResponseBody
+    @RequestMapping(value = "deleteAll")
+    public ServiceResponse deleteAll(Integer userid) {
+        List<CartItem> items = cartItemService.selectByUserId(userid);
+        for (CartItem item : items) {
+            cartItemService.deleteItemById(item.getId());
+        }
+        if (items == null) {
+            return ServiceResponse.createError(1,"清空失败");
+        } else {
+            return ServiceResponse.createSuccess("清空购物车成功");
+        }
+    }
 
 }

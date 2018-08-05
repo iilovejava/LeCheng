@@ -21,4 +21,8 @@ public interface CartItemMapper {
     List<CartItem> selectByUserId(Integer userid);
 
     int updateItem(CartItem cartItem);
+
+    CartItem selectItemByUidAndPid(CartItem cartItem);
+
+    int deleteItemById(Integer id);
 }

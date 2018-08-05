@@ -5,6 +5,16 @@
     <result column="cartId" property="cartid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="DOUBLE" />
+    <collection property="items" ofType="CartItem">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="proName" property="proname" jdbcType="VARCHAR" />
+      <result column="guige" property="guige" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DOUBLE" />
+      <result column="num" property="num" jdbcType="INTEGER" />
+      <result column="count" property="count" jdbcType="DOUBLE" />
+      <result column="proId" property="proid" jdbcType="INTEGER" />
+      <result column="userId" property="userid" jdbcType="INTEGER" />
+    </collection>
   </resultMap>
   <insert id="insert" parameterType="com.lanou.model.ShopCart" >
     insert into shopcart (cartId, userId, count
@@ -39,7 +49,7 @@
   </insert>
 
    <!--根据用户id查看购物车-->
-  <select id="selectCart" resultMap="ShopCart" parameterType="ShopCart">
+  <select id="selectCart" resultMap="BaseResultMap" parameterType="ShopCart">
     select * from shopcart
     where userId = #{0}
   </select>

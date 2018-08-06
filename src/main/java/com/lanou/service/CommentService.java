@@ -1,5 +1,6 @@
 package com.lanou.service;
 
+import com.lanou.model.Collect;
 import com.lanou.model.Comment;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface CommentService {
     List<Comment> findComment(Integer productId);
 
     boolean addComment(Comment comment);
+
 }

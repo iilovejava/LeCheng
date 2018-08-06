@@ -40,6 +40,7 @@
             <mvc:exclude-mapping path="/user/updatePassword"/>
             <mvc:exclude-mapping path="/user/comment"/>
             <mvc:exclude-mapping path="/user/addComment"/>
+            <mvc:exclude-mapping path="/user/findcollect"/>
 			<bean class="com.lanou.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

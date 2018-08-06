@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanou.dao.IndentMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.Indent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="indentId" property="indentid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="priceId" property="priceid" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, indentId, userId, priceId, num, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from indent
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from indent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lanou.model.Indent" >
+    insert into indent (id, indentId, userId, 
+      priceId, num, state
+      )
+    values (#{id,jdbcType=INTEGER}, #{indentid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{priceid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanou.model.Indent" >
+    insert into indent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indentid != null" >
+        indentId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="priceid != null" >
+        priceId,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="indentid != null" >
+        #{indentid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="priceid != null" >
+        #{priceid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Indent" >
+    update indent
+    <set >
+      <if test="indentid != null" >
+        indentId = #{indentid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="priceid != null" >
+        priceId = #{priceid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Indent" >
+    update indent
+    set indentId = #{indentid,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
+      priceId = #{priceid,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!-- 添加商品 -->
+  <insert id="addIndent" parameterType="Indent">
+    insert into indent
+    (indentId,userId,priceId,num,state)
+    values (#{indentId},#{userId},#{priceId},#{num},#{state})
+  </insert>
+</mapper>

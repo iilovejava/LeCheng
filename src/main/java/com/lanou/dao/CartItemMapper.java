@@ -17,6 +17,14 @@ public interface CartItemMapper {
     int updateByPrimaryKeySelective(CartItem record);
 
     int updateByPrimaryKey(CartItem record);
+<<<<<<< HEAD
+    // 添加
+    int addCartItem(CartItem cartItem);
+    // 查看
+    List<CartItem> selectCartByuserId(Integer userId);
+
+
+=======
 
     List<CartItem> selectByUserId(Integer userid);
 
@@ -25,4 +33,5 @@ public interface CartItemMapper {
     CartItem selectItemByUidAndPid(CartItem cartItem);
 
     int deleteItemById(Integer id);
+>>>>>>> 40003e2c0a4795a9b01db9b07270d96d4c26e0b3
 }

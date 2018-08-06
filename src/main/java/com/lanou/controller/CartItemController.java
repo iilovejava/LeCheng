@@ -1,7 +1,9 @@
 package com.lanou.controller;
 
 import com.lanou.model.CartItem;
+import com.lanou.model.Indent;
 import com.lanou.service.CartItemService;
+import com.lanou.service.IndentService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
+    @Autowired
+    private IndentService indentService;
 
     @ResponseBody
     @RequestMapping(value = "add")
@@ -29,5 +33,17 @@ public class CartItemController {
             return serviceResponse;
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "adaddIndent")
+    public ServiceResponse addIndent(Indent indent) {
+        int i = indentService.addIndent(indent);
+        if(i == 1) {
+            return  ServiceResponse.createSuccess("添加订单成功");
+        } else {
+            return ServiceResponse.createError(1,"添加失败");
+        }
+    }
+
 
 }

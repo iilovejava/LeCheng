@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import static org.apache.ibatis.ognl.DynamicSubscript.all;
+
 /**
  * Created by lanou on 2018/7/28.
  */
@@ -34,6 +36,11 @@ public class UserController {
     private AreaService areaService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private CollectService collectService;
+    @Autowired
+    private ProductService productService;
+
 
     // 注册
     @ResponseBody
@@ -202,4 +209,40 @@ public class UserController {
         }
         return ServiceResponse.createError(1,"评论失败");
     }
+
+    // 查看收藏
+    @ResponseBody
+    @RequestMapping(value = "findcollect")
+    public List<Collect> findCollect(Integer userId) {
+        List<Collect> collects = collectService.findCollect(userId);
+        for (Collect collect : collects) {
+            Integer productid = collect.getProductid();
+            Product product = productService.selectByPrimaryKey(productid);
+            collect.setProduct(product);
+        }
+        return collects;
+    }
+
+    // 添加用户收藏
+    @ResponseBody
+    @RequestMapping(value = "addcollect")
+    public ServiceResponse<String> addCollect(Collect collect) {
+        boolean all = collectService.addCollect(collect);
+        if (all){
+            return ServiceResponse.createSuccess("收藏成功");
+        }
+        return ServiceResponse.createError(1,"收藏失败");
+    }
+
+    // 删除用户收藏
+    @ResponseBody
+    @RequestMapping(value = "deletecollect")
+    public ServiceResponse<String> deleteCollect(Collect collect) {
+        boolean all = collectService.deleteCollect(collect);
+        if (all){
+            return ServiceResponse.createSuccess("删除成功");
+        }
+        return ServiceResponse.createError(1,"删除失败");
+    }
+
 }

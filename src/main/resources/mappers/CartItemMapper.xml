@@ -3,12 +3,16 @@
 <mapper namespace="com.lanou.dao.CartItemMapper" >
   <resultMap id="BaseResultMap" type="com.lanou.model.CartItem" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="proName" property="proname" jdbcType="VARCHAR" />
+    <result column="guige" property="guige" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="DOUBLE" />
     <result column="proId" property="proid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, num, proId, userId
+    id, proName, guige, price, num, count, proId, userId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -21,9 +25,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lanou.model.CartItem" >
-    insert into cartItem (id, num, proId, 
+    insert into cartItem (id, proName, guige, 
+      price, num, count, proId, 
       userId)
-    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{proid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{proname,jdbcType=VARCHAR}, #{guige,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, #{count,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER}, 
       #{userid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.CartItem" >
@@ -32,8 +38,20 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="proname != null" >
+        proName,
+      </if>
+      <if test="guige != null" >
+        guige,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
       <if test="num != null" >
         num,
+      </if>
+      <if test="count != null" >
+        count,
       </if>
       <if test="proid != null" >
         proId,
@@ -46,8 +64,20 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="proname != null" >
+        #{proname,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null" >
+        #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DOUBLE},
       </if>
       <if test="proid != null" >
         #{proid,jdbcType=INTEGER},
@@ -60,8 +90,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.CartItem" >
     update cartItem
     <set >
+      <if test="proname != null" >
+        proName = #{proname,jdbcType=VARCHAR},
+      </if>
+      <if test="guige != null" >
+        guige = #{guige,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=DOUBLE},
       </if>
       <if test="proid != null" >
         proId = #{proid,jdbcType=INTEGER},
@@ -74,22 +116,44 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanou.model.CartItem" >
     update cartItem
-    set num = #{num,jdbcType=INTEGER},
+    set proName = #{proname,jdbcType=VARCHAR},
+      guige = #{guige,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      num = #{num,jdbcType=INTEGER},
+      count = #{count,jdbcType=DOUBLE},
       proId = #{proid,jdbcType=INTEGER},
       userId = #{userid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!-- 添加商品 -->
-  <insert id="addCartItem" parameterType="CartItem">
-    insert into cartItem
-    (userId,proId,num)
-    values (#{userid},#{proid},#{num})
-  </insert>
-
-  <!-- 查看购物车 -->
-  <select id="selectCartByuserId" parameterType="CartItem">
-     select * from cartitem
-     where userId = #{0}
+  <!--根据用户id查找商品 -->
+  <select id="selectByUserId" parameterType="Integer" resultType="CartItem">
+    select * from cartItem
+    where userId = #{0}
   </select>
+
+  <!-- 更改商品信息 -->
+  <update id="updateItem" parameterType="CartItem">
+    update cartItem
+    <set>
+      num = #{num},
+      count = #{count}
+    </set>
+    where id = #{id}
+  </update>
+
+  <!-- 根据用户id和商品id查找item -->
+  <select id="selectItemByUidAndPid" parameterType="CartItem" resultType="CartItem">
+    select * from cartItem
+    where userId = #{userid}
+    and proId = #{proid}
+  </select>
+
+  <!-- 移除item -->
+  <delete id="deleteItemById" parameterType="Integer">
+    delete from cartItem
+    where id = #{id}
+  </delete>
+
+
 </mapper>

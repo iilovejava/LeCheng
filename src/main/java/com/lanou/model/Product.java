@@ -15,6 +15,8 @@ public class Product {
 
     private Integer cateid;
 
+    private String cate;
+
     private List<Attr> attrs;
 
     private List<Sale> sales;
@@ -22,6 +24,24 @@ public class Product {
     private List<Price> prices;
 
     private List<Picture> pictures;
+
+    private List<XqPicture> xqPictures;
+
+    public String getCate() {
+        return cate;
+    }
+
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
+    public List<XqPicture> getXqPictures() {
+        return xqPictures;
+    }
+
+    public void setXqPictures(List<XqPicture> xqPictures) {
+        this.xqPictures = xqPictures;
+    }
 
     public List<Sale> getSales() {
         return sales;
@@ -112,10 +132,12 @@ public class Product {
                 ", producturl='" + producturl + '\'' +
                 ", productdes='" + productdes + '\'' +
                 ", cateid=" + cateid +
+                ", cate='" + cate + '\'' +
                 ", attrs=" + attrs +
                 ", sales=" + sales +
                 ", prices=" + prices +
                 ", pictures=" + pictures +
+                ", xqPictures=" + xqPictures +
                 '}';
     }
 }

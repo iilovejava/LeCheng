@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanou.dao.ShopCartMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.ShopCart" >
+    <result column="cartId" property="cartid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="DOUBLE" />
+    <collection property="items" ofType="CartItem">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="proName" property="proname" jdbcType="VARCHAR" />
+      <result column="guige" property="guige" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DOUBLE" />
+      <result column="num" property="num" jdbcType="INTEGER" />
+      <result column="count" property="count" jdbcType="DOUBLE" />
+      <result column="proId" property="proid" jdbcType="INTEGER" />
+      <result column="userId" property="userid" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+  <insert id="insert" parameterType="com.lanou.model.ShopCart" >
+    insert into shopcart (cartId, userId, count
+      )
+    values (#{cartid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{count,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanou.model.ShopCart" >
+    insert into shopcart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cartid != null" >
+        cartId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cartid != null" >
+        #{cartid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+
+   <!--根据用户id查看购物车-->
+  <select id="selectCart" resultMap="BaseResultMap" parameterType="ShopCart">
+    select * from shopcart
+    where userId = #{0}
+  </select>
+
+</mapper>

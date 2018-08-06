@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lanou.dao.PictureMapper;
 import com.lanou.dao.PriceMapper;
 import com.lanou.dao.SaleMapper;
+import com.lanou.dao.XqPictureMapper;
 import com.lanou.model.*;
 import com.lanou.service.AttrService;
 import com.lanou.service.CategoryService;
@@ -32,6 +33,8 @@ public class ProductController {
     private PriceMapper priceMapper;
     @Autowired
     private PictureMapper pictureMapper;
+    @Autowired
+    private XqPictureMapper xqPictureMapper;
 
     @Autowired
     private AttrService attrService;
@@ -41,7 +44,6 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private ProductService productService;
-
 
 
     // 根据attrId查询对应的value值 放入attr
@@ -56,21 +58,26 @@ public class ProductController {
         return  attr;
     }
 
-    // 根据分类的id查看该类中的value值
+    // 根据商品id和商品分类id获取该商品中的value值
     @ResponseBody
     @RequestMapping(value = "cateAttr")
-    public Category selectValuesByCate(Integer id) {
+    public List<Attr> selectValuesByCate(Integer proid) {
         // 根据id获得分类
-        Category category = categoryService.selectByPrimaryKey(id);
+        Product product = productService.selectByPrimaryKey(proid);
+
         // 根据分类的id获得对应的 该类拥有的attr属性
-        List<Attr> list = attrService.selectByCateId(category.getCategoryid());
+        List<Attr> list = attrService.selectByCateId(product.getCateid());
         for (Attr attr : list) {
             // 获得attr属性中的属性值
-            List<Value> valuelist = valueService.selectValuesByAttrId(attr.getId());
+            Value value = new Value();
+            value.setProid(product.getProductid());
+            value.setAttrid(attr.getId());
+            List<Value> valuelist = valueService.selectValuesByProId(value);
             attr.setValues(valuelist);
         }
-        category.setAttrs(list);
-        return category;
+        product.setAttrs(list);
+        List<Attr> attrs = product.getAttrs();
+        return attrs;
     }
 
     // 查询单个商品(具体化)
@@ -80,17 +87,20 @@ public class ProductController {
     public Product selectProductByProId(Integer id) {
         // 根据proId查询value值 放入product
         Product product = productService.selectByPrimaryKey(id);
-        // 获取商品所属分类id
-        Integer cateid = product.getCateid();
-        // 通过商品所属分类 获取该类中的商品属性和属性值
-        Category category = selectValuesByCate(cateid);
+
+        List<Attr> attrs = selectValuesByCate(product.getProductid());
         // 将属性和属性值放入商品
-        product.setAttrs(category.getAttrs());
+        product.setAttrs(attrs);
+
+        Category category = categoryService.selectByPrimaryKey(product.getCateid());
+        product.setCate(category.getCategoryname());
+
         //  获取商品对应的 sale price 和 picture 放入商品
         List<Sale> sales = saleMapper.selectSale(id);
         product.setSales(sales);
         product.setPrices(priceMapper.selectPrice(id));
         product.setPictures(pictureMapper.selectPicture(id));
+        product.setXqPictures(xqPictureMapper.selectXqPic(id));
         return  product;
     }
 

@@ -8,5 +8,5 @@ public interface ValueService {
 
     List<Value> selectValuesByAttrId(Integer id);
 
-    List<Value> selectValuesByProId(Integer id);
+    List<Value> selectValuesByProId(Value value);
 }

@@ -3,7 +3,15 @@ package com.lanou.model;
 public class CartItem {
     private Integer id;
 
+    private String proname;
+
+    private String guige;
+
+    private Double price;
+
     private Integer num;
+
+    private Double count;
 
     private Integer proid;
 
@@ -17,12 +25,44 @@ public class CartItem {
         this.id = id;
     }
 
+    public String getProname() {
+        return proname;
+    }
+
+    public void setProname(String proname) {
+        this.proname = proname == null ? null : proname.trim();
+    }
+
+    public String getGuige() {
+        return guige;
+    }
+
+    public void setGuige(String guige) {
+        this.guige = guige == null ? null : guige.trim();
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Integer getNum() {
         return num;
     }
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public Double getCount() {
+        return count;
+    }
+
+    public void setCount(Double count) {
+        this.count = count;
     }
 
     public Integer getProid() {
@@ -41,5 +81,21 @@ public class CartItem {
         this.userid = userid;
     }
 
+<<<<<<< HEAD
 
+=======
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + id +
+                ", proname='" + proname + '\'' +
+                ", guige='" + guige + '\'' +
+                ", price=" + price +
+                ", num=" + num +
+                ", count=" + count +
+                ", proid=" + proid +
+                ", userid=" + userid +
+                '}';
+    }
+>>>>>>> 40003e2c0a4795a9b01db9b07270d96d4c26e0b3
 }

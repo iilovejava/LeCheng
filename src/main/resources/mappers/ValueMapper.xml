@@ -86,10 +86,12 @@
     where attrId = #{0}
   </select>
 
-  <!-- 根据proId查询value -->
-  <select id="selectValuesByProId" parameterType="int" resultMap="BaseResultMap">
+  <!-- 根据proId和attrId查询value -->
+  <select id="selectValuesByProId" parameterType="int" resultType="Value">
     select * from value
-    where proId = #{0}
+    where
+    proId = #{proid}
+    and  attrId = #{attrid}
   </select>
 
 </mapper>

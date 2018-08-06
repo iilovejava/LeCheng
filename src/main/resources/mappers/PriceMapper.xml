@@ -3,14 +3,14 @@
 <mapper namespace="com.lanou.dao.PriceMapper" >
   <resultMap id="BaseResultMap" type="com.lanou.model.Price" >
     <id column="priceId" property="priceid" jdbcType="INTEGER" />
-    <result column="focus" property="focus" jdbcType="VARCHAR" />
-    <result column="definition" property="definition" jdbcType="VARCHAR" />
-    <result column="combo" property="combo" jdbcType="VARCHAR" />
+    <result column="one" property="one" jdbcType="VARCHAR" />
+    <result column="two" property="two" jdbcType="VARCHAR" />
+    <result column="three" property="three" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="proId" property="proid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    priceId, focus, definition, combo, price, proId
+    priceId, one, two, three, price, proId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,10 +23,10 @@
     where priceId = #{priceid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lanou.model.Price" >
-    insert into price (priceId, focus, definition, 
-      combo, price, proId)
-    values (#{priceid,jdbcType=INTEGER}, #{focus,jdbcType=VARCHAR}, #{definition,jdbcType=VARCHAR}, 
-      #{combo,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER})
+    insert into price (priceId, one, two, 
+      three, price, proId)
+    values (#{priceid,jdbcType=INTEGER}, #{one,jdbcType=VARCHAR}, #{two,jdbcType=VARCHAR}, 
+      #{three,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.Price" >
     insert into price
@@ -34,14 +34,14 @@
       <if test="priceid != null" >
         priceId,
       </if>
-      <if test="focus != null" >
-        focus,
+      <if test="one != null" >
+        one,
       </if>
-      <if test="definition != null" >
-        definition,
+      <if test="two != null" >
+        two,
       </if>
-      <if test="combo != null" >
-        combo,
+      <if test="three != null" >
+        three,
       </if>
       <if test="price != null" >
         price,
@@ -54,14 +54,14 @@
       <if test="priceid != null" >
         #{priceid,jdbcType=INTEGER},
       </if>
-      <if test="focus != null" >
-        #{focus,jdbcType=VARCHAR},
+      <if test="one != null" >
+        #{one,jdbcType=VARCHAR},
       </if>
-      <if test="definition != null" >
-        #{definition,jdbcType=VARCHAR},
+      <if test="two != null" >
+        #{two,jdbcType=VARCHAR},
       </if>
-      <if test="combo != null" >
-        #{combo,jdbcType=VARCHAR},
+      <if test="three != null" >
+        #{three,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
         #{price,jdbcType=DOUBLE},
@@ -74,14 +74,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Price" >
     update price
     <set >
-      <if test="focus != null" >
-        focus = #{focus,jdbcType=VARCHAR},
+      <if test="one != null" >
+        one = #{one,jdbcType=VARCHAR},
       </if>
-      <if test="definition != null" >
-        definition = #{definition,jdbcType=VARCHAR},
+      <if test="two != null" >
+        two = #{two,jdbcType=VARCHAR},
       </if>
-      <if test="combo != null" >
-        combo = #{combo,jdbcType=VARCHAR},
+      <if test="three != null" >
+        three = #{three,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DOUBLE},
@@ -94,9 +94,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanou.model.Price" >
     update price
-    set focus = #{focus,jdbcType=VARCHAR},
-      definition = #{definition,jdbcType=VARCHAR},
-      combo = #{combo,jdbcType=VARCHAR},
+    set one = #{one,jdbcType=VARCHAR},
+      two = #{two,jdbcType=VARCHAR},
+      three = #{three,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
       proId = #{proid,jdbcType=INTEGER}
     where priceId = #{priceid,jdbcType=INTEGER}
@@ -107,4 +107,5 @@
     select * from price
     where proId = #{0}
   </select>
+
 </mapper>

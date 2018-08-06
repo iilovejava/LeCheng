@@ -14,27 +14,38 @@ public class CartItemServiceImpl implements CartItemService {
     @Autowired
     private CartItemMapper cartItemMapper;
 
+    // 根据用户id查看购物车
+    public List<CartItem> selectByUserId(Integer userid) {
+        List<CartItem> items = cartItemMapper.selectByUserId(userid);
+        return items;
+    }
+
+    // 修改item信息
+    public int updateItem(CartItem cartItem) {
+        int res = cartItemMapper.updateItem(cartItem);
+        return res;
+    }
 
     // 添加商品
-    public int addCartItem(CartItem cartItem) {
-        int result = cartItemMapper.addCartItem(cartItem);
-        return result;
-    }
-    // 查看购物车
-    public List<CartItem> selectCartByuserId(Integer userId) {
-        List<CartItem> cartItems = cartItemMapper.selectCartByuserId(userId);
-        for (CartItem cartItem : cartItems) {
-            cartItem.getId();
-        }
-        return null;
+    public int insert(CartItem record) {
+        int res = cartItemMapper.insert(record);
+        return res;
     }
 
-    // 查看购物车
-   public List<CartItem> findProIdByUserId(Integer userId) {
-//        List<CartItem> cartItems = cartItemMapper.findProIdByUserId(userId);
-//        for (CartItem cartItem : cartItems) {
-//            //cartItem.setProid();
-//        }
-       return null;
+    // 根据userid和proid查询
+    public CartItem selectItemByUidAndPid(CartItem cartItem) {
+        CartItem item = cartItemMapper.selectItemByUidAndPid(cartItem);
+        return item;
     }
+
+    // 移除商品
+    public int deleteItemById(Integer id) {
+        int res = cartItemMapper.deleteItemById(id);
+        return res;
+    }
+
+
+
+
+
 }

@@ -3,9 +3,9 @@
 <mapper namespace="com.lanou.dao.PriceMapper" >
   <resultMap id="BaseResultMap" type="com.lanou.model.Price" >
     <id column="priceId" property="priceid" jdbcType="INTEGER" />
-    <result column="one" property="one" jdbcType="VARCHAR" />
-    <result column="two" property="two" jdbcType="VARCHAR" />
-    <result column="three" property="three" jdbcType="VARCHAR" />
+    <result column="one" property="one" jdbcType="INTEGER" />
+    <result column="two" property="two" jdbcType="INTEGER" />
+    <result column="three" property="three" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="proId" property="proid" jdbcType="INTEGER" />
   </resultMap>
@@ -25,8 +25,8 @@
   <insert id="insert" parameterType="com.lanou.model.Price" >
     insert into price (priceId, one, two, 
       three, price, proId)
-    values (#{priceid,jdbcType=INTEGER}, #{one,jdbcType=VARCHAR}, #{two,jdbcType=VARCHAR}, 
-      #{three,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER})
+    values (#{priceid,jdbcType=INTEGER}, #{one,jdbcType=INTEGER}, #{two,jdbcType=INTEGER}, 
+      #{three,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.Price" >
     insert into price
@@ -55,13 +55,13 @@
         #{priceid,jdbcType=INTEGER},
       </if>
       <if test="one != null" >
-        #{one,jdbcType=VARCHAR},
+        #{one,jdbcType=INTEGER},
       </if>
       <if test="two != null" >
-        #{two,jdbcType=VARCHAR},
+        #{two,jdbcType=INTEGER},
       </if>
       <if test="three != null" >
-        #{three,jdbcType=VARCHAR},
+        #{three,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         #{price,jdbcType=DOUBLE},
@@ -75,13 +75,13 @@
     update price
     <set >
       <if test="one != null" >
-        one = #{one,jdbcType=VARCHAR},
+        one = #{one,jdbcType=INTEGER},
       </if>
       <if test="two != null" >
-        two = #{two,jdbcType=VARCHAR},
+        two = #{two,jdbcType=INTEGER},
       </if>
       <if test="three != null" >
-        three = #{three,jdbcType=VARCHAR},
+        three = #{three,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DOUBLE},
@@ -94,9 +94,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanou.model.Price" >
     update price
-    set one = #{one,jdbcType=VARCHAR},
-      two = #{two,jdbcType=VARCHAR},
-      three = #{three,jdbcType=VARCHAR},
+    set one = #{one,jdbcType=INTEGER},
+      two = #{two,jdbcType=INTEGER},
+      three = #{three,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
       proId = #{proid,jdbcType=INTEGER}
     where priceId = #{priceid,jdbcType=INTEGER}
@@ -106,6 +106,25 @@
   <select id="selectPrice" resultType="Price">
     select * from price
     where proId = #{0}
+  </select>
+
+  <!-- 根据规格查询 -->
+  <select id="getPrice" resultType="Price" parameterType="Price">
+    select * from price
+    <where>
+      proId = #{proid}
+
+      <if test="one != null">
+        and one = #{one}
+      </if>
+      <if test="two != null">
+        and two = #{two}
+      </if>
+      <if test="three != null">
+        and three = #{three}
+      </if>
+
+    </where>
   </select>
 
 </mapper>

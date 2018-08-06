@@ -21,7 +21,7 @@ public class Product {
 
     private List<Sale> sales;
 
-    private List<Price> prices;
+    private Price price;
 
     private List<Picture> pictures;
 
@@ -51,12 +51,12 @@ public class Product {
         this.sales = sales;
     }
 
-    public List<Price> getPrices() {
-        return prices;
+    public Price getPrice() {
+        return price;
     }
 
-    public void setPrices(List<Price> prices) {
-        this.prices = prices;
+    public void setPrice(Price price) {
+        this.price = price;
     }
 
     public List<Picture> getPictures() {
@@ -135,7 +135,7 @@ public class Product {
                 ", cate='" + cate + '\'' +
                 ", attrs=" + attrs +
                 ", sales=" + sales +
-                ", prices=" + prices +
+                ", price=" + price +
                 ", pictures=" + pictures +
                 ", xqPictures=" + xqPictures +
                 '}';

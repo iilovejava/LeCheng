@@ -84,7 +84,7 @@ public class CartItemController {
             return serviceResponse;
         }
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "adaddIndent")
     public ServiceResponse addIndent(Indent indent) {

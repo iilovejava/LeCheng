@@ -3,11 +3,11 @@ package com.lanou.model;
 public class Price {
     private Integer priceid;
 
-    private String one;
+    private Integer one;
 
-    private String two;
+    private Integer two;
 
-    private String three;
+    private Integer three;
 
     private Double price;
 
@@ -21,28 +21,28 @@ public class Price {
         this.priceid = priceid;
     }
 
-    public String getOne() {
+    public Integer getOne() {
         return one;
     }
 
-    public void setOne(String one) {
-        this.one = one == null ? null : one.trim();
+    public void setOne(Integer one) {
+        this.one = one;
     }
 
-    public String getTwo() {
+    public Integer getTwo() {
         return two;
     }
 
-    public void setTwo(String two) {
-        this.two = two == null ? null : two.trim();
+    public void setTwo(Integer two) {
+        this.two = two;
     }
 
-    public String getThree() {
+    public Integer getThree() {
         return three;
     }
 
-    public void setThree(String three) {
-        this.three = three == null ? null : three.trim();
+    public void setThree(Integer three) {
+        this.three = three;
     }
 
     public Double getPrice() {
@@ -59,5 +59,17 @@ public class Price {
 
     public void setProid(Integer proid) {
         this.proid = proid;
+    }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "priceid=" + priceid +
+                ", one=" + one +
+                ", two=" + two +
+                ", three=" + three +
+                ", price=" + price +
+                ", proid=" + proid +
+                '}';
     }
 }

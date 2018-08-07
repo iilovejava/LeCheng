@@ -2,6 +2,12 @@ package com.lanou.controller;
 
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
+<<<<<<< HEAD
+=======
+
+import com.lanou.model.Indent;
+
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
@@ -85,8 +91,11 @@ public class CartItemController {
         }
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
     @ResponseBody
     @RequestMapping(value = "addIndent")
     public ServiceResponse addIndent(Integer userid) {
@@ -143,6 +152,9 @@ public class CartItemController {
             return ServiceResponse.createSuccess("清空购物车成功");
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
 
 }

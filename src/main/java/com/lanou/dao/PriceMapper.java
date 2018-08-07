@@ -5,7 +5,7 @@ import com.lanou.model.Price;
 import java.util.List;
 
 public interface PriceMapper {
-    int deleteByPrimaryKey(Integer priId);
+    int deleteByPrimaryKey(Integer priceid);
 
     int insert(Price record);
 
@@ -18,4 +18,6 @@ public interface PriceMapper {
     int updateByPrimaryKey(Price record);
 
     List<Price> selectPrice(Integer proId);
+
+    Price getPrice(Price price);
 }

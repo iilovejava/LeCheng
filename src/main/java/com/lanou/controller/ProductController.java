@@ -98,11 +98,21 @@ public class ProductController {
         //  获取商品对应的 sale price 和 picture 放入商品
         List<Sale> sales = saleMapper.selectSale(id);
         product.setSales(sales);
-        product.setPrices(priceMapper.selectPrice(id));
+        List<Price> prices = priceMapper.selectPrice(id);
+        product.setPrice(prices.get(0));
         product.setPictures(pictureMapper.selectPicture(id));
         product.setXqPictures(xqPictureMapper.selectXqPic(id));
         return  product;
     }
+
+    // 根据规格获得商品价格
+    @ResponseBody
+    @RequestMapping(value = "price")
+    public Double getPrice(Price price){
+        Price price1 = priceMapper.getPrice(price);
+        return price1.getPrice();
+    }
+
 
     // 根据分类查询
     // 查询分类中的所有商品
@@ -129,7 +139,7 @@ public class ProductController {
     @ResponseBody
     @RequestMapping(value = "all")
     public List<Category> selecatAll() {
-        int[] array =  {1,2,3,4,5,6,7};
+        int[] array =  {1,2,3,4,5,6,7,8};
         ArrayList<Category> list = new ArrayList<Category>();
         for (int i : array) {
 

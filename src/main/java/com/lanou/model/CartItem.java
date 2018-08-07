@@ -81,9 +81,7 @@ public class CartItem {
         this.userid = userid;
     }
 
-<<<<<<< HEAD
 
-=======
     @Override
     public String toString() {
         return "CartItem{" +
@@ -97,5 +95,5 @@ public class CartItem {
                 ", userid=" + userid +
                 '}';
     }
->>>>>>> 40003e2c0a4795a9b01db9b07270d96d4c26e0b3
+
 }

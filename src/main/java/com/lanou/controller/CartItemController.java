@@ -2,11 +2,8 @@ package com.lanou.controller;
 
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
-<<<<<<< HEAD
-import com.lanou.model.Indent;
-=======
 import com.lanou.model.ShopCart;
->>>>>>> 40003e2c0a4795a9b01db9b07270d96d4c26e0b3
+
 import com.lanou.service.CartItemService;
 import com.lanou.service.IndentService;
 import com.lanou.util.ServiceResponse;
@@ -16,6 +13,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -26,7 +26,7 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
     @Autowired
-    private IndentService indentService;
+    private ;
 
     @Autowired
     private ShopCartMapper shopCartMapper;
@@ -85,19 +85,20 @@ public class CartItemController {
         }
     }
 
-<<<<<<< HEAD
+
+
     @ResponseBody
-    @RequestMapping(value = "adaddIndent")
-    public ServiceResponse addIndent(Indent indent) {
-        int i = indentService.addIndent(indent);
-        if(i == 1) {
-            return  ServiceResponse.createSuccess("添加订单成功");
-        } else {
-            return ServiceResponse.createError(1,"添加失败");
-        }
+    @RequestMapping(value = "addIndent")
+    public ServiceResponse addIndent(Integer userid) {
+        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = format.format(new Date());
+        System.out.println(string);
+
+
+
+        return  ServiceResponse.createSuccess("添加订单成功");
     }
 
-=======
     // 修改商品数量
 //    @ResponseBody
 //    @RequestMapping(value = "jia")
@@ -142,6 +143,6 @@ public class CartItemController {
             return ServiceResponse.createSuccess("清空购物车成功");
         }
     }
->>>>>>> 40003e2c0a4795a9b01db9b07270d96d4c26e0b3
+
 
 }

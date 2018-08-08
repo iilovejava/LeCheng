@@ -54,4 +54,11 @@
     where userId = #{0}
   </select>
 
+  <update id="updateCart" parameterType="ShopCart">
+    update shopcart
+    <set>
+      count = #{count}
+    </set>
+    where userId = #{userid}
+  </update>
 </mapper>

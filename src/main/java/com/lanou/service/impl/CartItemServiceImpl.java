@@ -44,8 +44,11 @@ public class CartItemServiceImpl implements CartItemService {
         return res;
     }
 
-
-
+    // 根据id获得cartItem
+    public CartItem selectByPrimaryKey(Integer id) {
+        CartItem item = cartItemMapper.selectByPrimaryKey(id);
+        return item;
+    }
 
 
 }

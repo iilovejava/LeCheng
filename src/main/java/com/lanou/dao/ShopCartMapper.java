@@ -8,4 +8,6 @@ public interface ShopCartMapper {
     int insertSelective(ShopCart record);
 
     ShopCart selectCart(Integer userId);
+
+    int updateCart(ShopCart shopCart);
 }

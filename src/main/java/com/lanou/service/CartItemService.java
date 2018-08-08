@@ -20,4 +20,6 @@ public interface CartItemService {
     // 删除
     int deleteItemById(Integer id);
 
+    CartItem selectByPrimaryKey(Integer id);
+
 }

@@ -61,15 +61,34 @@ public class CartItemController {
             item.setUnitPrice(item.getCount()/item.getNum());
             // 获得描述
             Price price = priceMapper.findPriceBypriId(item.getPriceid());
-            String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
-            String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
-            String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
+            String one;
+            String two;
+            String three;
+            Value v1 = valueMapper.selectByPrimaryKey(price.getOne());
+            if (v1 == null){
+                one = " ";
+            } else {
+                one = v1.getValue();
+            }
+            Value v2 = valueMapper.selectByPrimaryKey(price.getTwo());
+            if (v2 == null){
+                two = " ";
+            } else {
+                two = v2.getValue();
+            }
+            Value v3 = valueMapper.selectByPrimaryKey(price.getThree());
+            if (v3 == null){
+                three = " ";
+            } else {
+                three = v3.getValue();
+            }
             item.setNorms(one +" " + two + " " + three);
             // 总计
             amount += item.getCount();
         }
         shopCart.setCount(amount);
         shopCart.setItems(items);
+        shopCartMapper.updateCart(shopCart);
         return shopCart;
     }
 
@@ -159,17 +178,29 @@ public class CartItemController {
 //        }
     }
 
-        // 修改商品数量
-//    @ResponseBody
-//    @RequestMapping(value = "jia")
-//    public ServiceResponse updateItem(Integer userid,Integer proid,Integer num) {
-//        CartItem item = cartItemService.selectItem(cartItem);
-//        int res = cartItemService.updateItem(item.getNum());
-//        if (res != 1) {
-//            return ServiceResponse.createError(1,"商品数量修改失败");
-//        }
-//        return ServiceResponse.createSuccess("数量修改成功");
-//    }
+      // 修改商品数量
+    @ResponseBody
+    @RequestMapping(value = "num")
+    public ServiceResponse updateItem(Integer itemId,Integer num,Double price) {
+        CartItem item = cartItemService.selectByPrimaryKey(itemId);
+        item.setNum(num);
+        Double con = item.getCount();
+        item.setCount(price * num);
+        int res = cartItemService.updateItem(item);
+        if (res == 1) {
+            ShopCart shopCart = shopCartMapper.selectCart(item.getUserid());
+            Double com = shopCart.getCount();
+            shopCart.setCount(com - con + (price * num));
+            int result = shopCartMapper.updateCart(shopCart);
+            if (result == 1) {
+                return ServiceResponse.createSuccess("购物车数据更新成功");
+            } else {
+                return ServiceResponse.createError(1,"购物车数据更新失败");
+            }
+        }
+        return ServiceResponse.createError(1,"商品项更新失败");
+        
+    }
 
 
         // 移除商品
@@ -195,6 +226,7 @@ public class CartItemController {
             List<CartItem> items = cartItemService.selectByUserId(userid);
             for (CartItem item : items) {
                 cartItemService.deleteItemById(item.getId());
+                items.remove(item);
             }
             if (items.size() != 0) {
                 return ServiceResponse.createError(1, "清空失败");

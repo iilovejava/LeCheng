@@ -32,11 +32,11 @@ public class CartItemServiceImpl implements CartItemService {
         return res;
     }
 
-    // 根据userid和proid查询
-    public CartItem selectItemByUidAndPid(CartItem cartItem) {
-        CartItem item = cartItemMapper.selectItemByUidAndPid(cartItem);
+    public CartItem findItemByproIdAndpriId(CartItem cartItem) {
+        CartItem item = cartItemMapper.findItemByproIdAndpriId(cartItem);
         return item;
     }
+
 
     // 移除商品
     public int deleteItemById(Integer id) {

@@ -19,5 +19,10 @@ public interface PriceMapper {
 
     List<Price> selectPrice(Integer proId);
 
+    // 根据规格查询
     Price getPrice(Price price);
+
+    Price findPriceId(Price price);
+
+    Price findPriceBypriId(Integer priceid);
 }

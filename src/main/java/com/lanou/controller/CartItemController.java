@@ -1,21 +1,17 @@
 package com.lanou.controller;
 
-<<<<<<< HEAD
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.lanou.dao.*;
 import com.lanou.model.*;
-=======
+
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
-<<<<<<< HEAD
-=======
+
 
 import com.lanou.model.Indent;
 
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
 import com.lanou.model.ShopCart;
->>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 
 import com.lanou.service.CartItemService;
 import com.lanou.service.IndentService;
@@ -40,11 +36,6 @@ import java.util.Map;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
-<<<<<<< HEAD
-=======
-    @Autowired
-    private ;
->>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 
     @Autowired
     private ShopCartMapper shopCartMapper;
@@ -143,17 +134,14 @@ public class CartItemController {
         }
     }
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
     @ResponseBody
     @RequestMapping(value = "addIndent")
-<<<<<<< HEAD
     public ServiceResponse addIndent(String str) {
         System.out.println(str);
-        Map<String,Indent> map = JSON.parseObject(str,new TypeReference<Map<String,Indent>>(){});
+        Map<String, Indent> map = JSON.parseObject(str, new TypeReference<Map<String, Indent>>() {
+        });
         System.out.println(map);
 //        int i = indentService.addIndent(indent);
 //        if(i == 1) {
@@ -162,19 +150,16 @@ public class CartItemController {
 //            return ServiceResponse.createError(1,"添加失败");
 //        }
         return ServiceResponse.createSuccess("添加订单成功");
-=======
-    public ServiceResponse addIndent(Integer userid) {
-        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String string = format.format(new Date());
-        System.out.println(string);
-
-
-
-        return  ServiceResponse.createSuccess("添加订单成功");
->>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
+//        public ServiceResponse addIndent (Integer userid){
+//            Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+//            String string = format.format(new Date());
+//            System.out.println(string);
+//
+//            return ServiceResponse.createSuccess("添加订单成功");
+//        }
     }
 
-    // 修改商品数量
+        // 修改商品数量
 //    @ResponseBody
 //    @RequestMapping(value = "jia")
 //    public ServiceResponse updateItem(Integer userid,Integer proid,Integer num) {
@@ -187,39 +172,35 @@ public class CartItemController {
 //    }
 
 
-    // 移除商品
-    @ResponseBody
-    @RequestMapping(value = "delete")
-    public ServiceResponse deleteItem(Integer userid ,Integer priceid) {
-        CartItem cartItem = new CartItem();
-        cartItem.setUserid(userid);
-        cartItem.setPriceid(priceid);
-        CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
-        // 根据id移除item
-        int res = cartItemService.deleteItemById(item.getId());
-        if (res != 1) {
-            return ServiceResponse.createError(1,"商品移除失败");
+        // 移除商品
+        @ResponseBody
+        @RequestMapping(value = "delete")
+        public ServiceResponse deleteItem (Integer userid, Integer priceid){
+            CartItem cartItem = new CartItem();
+            cartItem.setUserid(userid);
+            cartItem.setPriceid(priceid);
+            CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
+            // 根据id移除item
+            int res = cartItemService.deleteItemById(item.getId());
+            if (res != 1) {
+                return ServiceResponse.createError(1, "商品移除失败");
+            }
+            return ServiceResponse.createSuccess("移除成功");
         }
-        return ServiceResponse.createSuccess("移除成功");
+
+        // 清空购物车
+        @ResponseBody
+        @RequestMapping(value = "deleteAll")
+        public ServiceResponse deleteAll (Integer userid){
+            List<CartItem> items = cartItemService.selectByUserId(userid);
+            for (CartItem item : items) {
+                cartItemService.deleteItemById(item.getId());
+            }
+            if (items.size() != 0) {
+                return ServiceResponse.createError(1, "清空失败");
+            } else {
+                return ServiceResponse.createSuccess("清空购物车成功");
+            }
+        }
+
     }
-
-    // 清空购物车
-    @ResponseBody
-    @RequestMapping(value = "deleteAll")
-    public ServiceResponse deleteAll(Integer userid) {
-        List<CartItem> items = cartItemService.selectByUserId(userid);
-        for (CartItem item : items) {
-            cartItemService.deleteItemById(item.getId());
-        }
-        if (items.size() != 0) {
-            return ServiceResponse.createError(1,"清空失败");
-        } else {
-            return ServiceResponse.createSuccess("清空购物车成功");
-        }
-    }
-<<<<<<< HEAD
-
-=======
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
-
-}

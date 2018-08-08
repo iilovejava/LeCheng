@@ -1,9 +1,21 @@
 package com.lanou.controller;
 
+<<<<<<< HEAD
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.lanou.dao.*;
 import com.lanou.model.*;
+=======
+import com.lanou.dao.ShopCartMapper;
+import com.lanou.model.CartItem;
+<<<<<<< HEAD
+=======
+
+import com.lanou.model.Indent;
+
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
+import com.lanou.model.ShopCart;
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 
 import com.lanou.service.CartItemService;
 import com.lanou.service.IndentService;
@@ -15,6 +27,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +40,11 @@ import java.util.Map;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
+<<<<<<< HEAD
+=======
+    @Autowired
+    private ;
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 
     @Autowired
     private ShopCartMapper shopCartMapper;
@@ -123,8 +143,14 @@ public class CartItemController {
         }
     }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
     @ResponseBody
     @RequestMapping(value = "addIndent")
+<<<<<<< HEAD
     public ServiceResponse addIndent(String str) {
         System.out.println(str);
         Map<String,Indent> map = JSON.parseObject(str,new TypeReference<Map<String,Indent>>(){});
@@ -136,6 +162,16 @@ public class CartItemController {
 //            return ServiceResponse.createError(1,"添加失败");
 //        }
         return ServiceResponse.createSuccess("添加订单成功");
+=======
+    public ServiceResponse addIndent(Integer userid) {
+        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = format.format(new Date());
+        System.out.println(string);
+
+
+
+        return  ServiceResponse.createSuccess("添加订单成功");
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     }
 
     // 修改商品数量
@@ -181,5 +217,9 @@ public class CartItemController {
             return ServiceResponse.createSuccess("清空购物车成功");
         }
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
 
 }

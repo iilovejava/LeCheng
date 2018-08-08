@@ -91,6 +91,10 @@ public class CartItem {
         this.userid = userid;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     @Override
     public String toString() {
         return "CartItem{" +
@@ -105,4 +109,8 @@ public class CartItem {
                 ", norms='" + norms + '\'' +
                 '}';
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 }

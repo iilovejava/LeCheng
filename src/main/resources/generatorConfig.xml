@@ -69,15 +69,36 @@
         <!--设置想要将哪个表生成对应的文件-->
 
 
+<<<<<<< HEAD
         <table tableName="order" domainObjectName="Order" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+=======
+        <table tableName="cartItem" domainObjectName="CartItem" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+        <!--<table tableName="collect" domainObjectName="Collect" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+=======
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+        <table tableName="price" domainObjectName="Price" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+=======
+<<<<<<< HEAD
+>>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
+        <table tableName="collect" domainObjectName="Collect" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
         <!--<table tableName="homepage" domainObjectName="HomePage" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="comment" domainObjectName="Comment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="xqpicture" domainObjectName="XqPicture" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
         <!--<table tableName="cartItem" domainObjectName="CartItem" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+<<<<<<< HEAD
+
+=======
         <!--&lt;!&ndash;<table tableName="comment" domainObjectName="Comment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>&ndash;&gt;-->
 
     <!---->
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     </context>
 </generatorConfiguration>

@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -108,9 +110,12 @@ public class ProductController {
     // 根据规格获得商品价格
     @ResponseBody
     @RequestMapping(value = "price")
-    public Double getPrice(Price price){
+    public Map getPrice(Price price){
         Price price1 = priceMapper.getPrice(price);
-        return price1.getPrice();
+        Map map = new HashMap();
+        map.put("priceid",price1.getPriceid());
+        map.put("price",price1.getPrice());
+        return map;
     }
 
 

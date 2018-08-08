@@ -113,7 +113,6 @@
     select * from price
     <where>
       proId = #{proid}
-
       <if test="one != null">
         and one = #{one}
       </if>
@@ -125,6 +124,19 @@
       </if>
 
     </where>
+  </select>
+
+  <!-- 通过proId和price获得priceId -->
+  <select id="findPriceId" parameterType="Price" resultType="Price">
+    select * from price
+    where proId = #{proid}
+    and price = #{price}
+  </select>
+
+  <!-- 根据priceId获得price对象 -->
+  <select id="findPriceBypriId" resultType="Price" parameterType="Integer">
+    select * from price
+    where priceId = #{0}
   </select>
 
 </mapper>

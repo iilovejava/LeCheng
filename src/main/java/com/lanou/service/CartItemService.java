@@ -15,8 +15,7 @@ public interface CartItemService {
     // 添加
     int insert(CartItem record);
 
-    // 根据uid和pid查找item
-    CartItem selectItemByUidAndPid(CartItem cartItem);
+    CartItem findItemByproIdAndpriId(CartItem cartItem);
 
     // 删除
     int deleteItemById(Integer id);

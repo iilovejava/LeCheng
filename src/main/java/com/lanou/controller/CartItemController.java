@@ -1,13 +1,28 @@
 package com.lanou.controller;
 
+<<<<<<< HEAD
 import com.lanou.dao.CartItemMapper;
 import com.lanou.dao.OrderMapper;
+=======
+<<<<<<< HEAD
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.lanou.dao.*;
+import com.lanou.model.*;
+=======
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
 import com.lanou.model.Order;
 import com.lanou.model.ShopCart;
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
 
 import com.lanou.service.CartItemService;
+<<<<<<< HEAD
+=======
+import com.lanou.service.IndentService;
+import com.lanou.service.ValueService;
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +34,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -27,13 +43,31 @@ import java.util.List;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
+<<<<<<< HEAD
+=======
     @Autowired
+<<<<<<< HEAD
     private CartItemMapper cartItemMapper;
+=======
+    private ;
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 
     @Autowired
     private ShopCartMapper shopCartMapper;
     @Autowired
+<<<<<<< HEAD
     private OrderMapper orderMapper;
+=======
+    private ProductMapper productMapper;
+    @Autowired
+    private ValueMapper valueMapper;
+    @Autowired
+    private PriceMapper priceMapper;
+    @Autowired
+    private PictureMapper pictureMapper;
+
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 
     // 查看购物车
     @ResponseBody
@@ -41,11 +75,20 @@ public class CartItemController {
     public ShopCart selectCart(Integer userid) {
         ShopCart shopCart = shopCartMapper.selectCart(userid);
         List<CartItem> items = cartItemService.selectByUserId(userid);
-        Double count = 0D;
+        Double amount = 0D;
         for (CartItem item : items) {
-            count += item.getCount();
+            // 获得单价
+            item.setUnitPrice(item.getCount()/item.getNum());
+            // 获得描述
+            Price price = priceMapper.findPriceBypriId(item.getPriceid());
+            String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
+            String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
+            String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
+            item.setNorms(one +" " + two + " " + three);
+            // 总计
+            amount += item.getCount();
         }
-        shopCart.setCount(count);
+        shopCart.setCount(amount);
         shopCart.setItems(items);
         return shopCart;
     }
@@ -53,15 +96,20 @@ public class CartItemController {
     // 添加商品
     @ResponseBody
     @RequestMapping(value = "add")
-    public ServiceResponse addCartItem(String proname,Double price,Integer num,Double count,Integer proid,Integer userid) {
+    public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
+        Price price = priceMapper.findPriceBypriId(priceid);
+        // 根据userId遍历购物车
         List<CartItem> items = cartItemService.selectByUserId(userid);
         // 遍利购物车
         for (CartItem item : items) {
-            if (item.getProid().equals(proid)) {
+            // 需要根据priceId判断购物车是否已有该商品
+            if (item.getPriceid() == priceid){
                 // 商品已在购物车 数量相加
                 item.setNum(item.getNum() + num);
                 int n = item.getNum();
-                item.setCount(item.getPrice() * n);
+                Price unit = priceMapper.findPriceBypriId(item.getPriceid());
+                // 更改小计
+                item.setCount(unit.getPrice() * n);
                 // 更改数据库中商品数量和小计
                 int res = cartItemService.updateItem(item);
                 if (res != 1) {
@@ -71,17 +119,34 @@ public class CartItemController {
             }
         }
         CartItem newItem = new CartItem();
-        newItem.setProname(proname);
-        //newItem.setGuige(guige);
-        newItem.setPrice(price);
+        Product product = productMapper.selectByPrimaryKey(price.getProid());
+        // 商品名称
+        newItem.setProname(product.getProductname());
+
+        List<Picture> list = pictureMapper.selectPicture(product.getProductid());
+        // 商品图片
+        newItem.setPicture(list.get(0).getPicurl());
+        // 价格id
+        newItem.setPriceid(priceid);
+        // 数量
         newItem.setNum(num);
-        newItem.setCount(count);
-        newItem.setProid(proid);
+        // 小计
+        newItem.setCount(price.getPrice() * num);
+       //  用户
         newItem.setUserid(userid);
-        // 添加到购物车
+        // 添加到商品列表
         int res = cartItemService.insert(newItem);
+
         if(res == 1) {
             ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
+            // 关联用户购物车
+            ShopCart shopCart = shopCartMapper.selectCart(userid);
+            if (shopCart == null) {
+                ShopCart newCart = new ShopCart();
+                newCart.setUserid(userid);
+                shopCartMapper.insert(newCart);
+                return serviceResponse;
+            }
             return serviceResponse;
         } else {
             ServiceResponse serviceResponse = ServiceResponse.createError(1,"添加失败");
@@ -92,6 +157,19 @@ public class CartItemController {
 
     @ResponseBody
     @RequestMapping(value = "addIndent")
+<<<<<<< HEAD
+    public ServiceResponse addIndent(String str) {
+        System.out.println(str);
+        Map<String,Indent> map = JSON.parseObject(str,new TypeReference<Map<String,Indent>>(){});
+        System.out.println(map);
+//        int i = indentService.addIndent(indent);
+//        if(i == 1) {
+//            return  ServiceResponse.createSuccess("添加订单成功");
+//        } else {
+//            return ServiceResponse.createError(1,"添加失败");
+//        }
+        return ServiceResponse.createSuccess("添加订单成功");
+=======
     public ServiceResponse addIndent(Integer userid) {
         Format format = new SimpleDateFormat("yyyyMMddHHmmss");
         String string = format.format(new Date());
@@ -112,6 +190,7 @@ public class CartItemController {
             orderMapper.insertSelective(order);
         }
         return  ServiceResponse.createSuccess("添加订单成功");
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     }
 
     // 修改商品数量
@@ -130,12 +209,11 @@ public class CartItemController {
     // 移除商品
     @ResponseBody
     @RequestMapping(value = "delete")
-    public ServiceResponse deleteItem(Integer userid,Integer proid) {
-
+    public ServiceResponse deleteItem(Integer userid ,Integer priceid) {
         CartItem cartItem = new CartItem();
         cartItem.setUserid(userid);
-        cartItem.setProid(proid);
-        CartItem item = cartItemService.selectItemByUidAndPid(cartItem);
+        cartItem.setPriceid(priceid);
+        CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
         // 根据id移除item
         int res = cartItemService.deleteItemById(item.getId());
         if (res != 1) {
@@ -152,7 +230,7 @@ public class CartItemController {
         for (CartItem item : items) {
             cartItemService.deleteItemById(item.getId());
         }
-        if (items == null) {
+        if (items.size() != 0) {
             return ServiceResponse.createError(1,"清空失败");
         } else {
             return ServiceResponse.createSuccess("清空购物车成功");

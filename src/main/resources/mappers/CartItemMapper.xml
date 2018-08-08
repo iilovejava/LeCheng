@@ -5,15 +5,18 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="proName" property="proname" jdbcType="VARCHAR" />
     <result column="picture" property="picture" jdbcType="VARCHAR" />
+<<<<<<< HEAD
     <result column="guige" property="guige" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
+=======
+    <result column="priceId" property="priceid" jdbcType="INTEGER" />
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="DOUBLE" />
-    <result column="proId" property="proid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, proName, guige, price, num, count, proId, userId
+    id, proName, picture, priceId, num, count, userId
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,11 +29,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lanou.model.CartItem" >
-    insert into cartItem (id, proName, guige, 
-      price, num, count, proId, 
+    insert into cartItem (id, proName, picture, 
+      priceId, num, count, 
       userId)
-    values (#{id,jdbcType=INTEGER}, #{proname,jdbcType=VARCHAR}, #{guige,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, #{count,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{proname,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, 
+      #{priceid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{count,jdbcType=DOUBLE}, 
       #{userid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.CartItem" >
@@ -42,20 +45,17 @@
       <if test="proname != null" >
         proName,
       </if>
-      <if test="guige != null" >
-        guige,
+      <if test="picture != null" >
+        picture,
       </if>
-      <if test="price != null" >
-        price,
+      <if test="priceid != null" >
+        priceId,
       </if>
       <if test="num != null" >
         num,
       </if>
       <if test="count != null" >
         count,
-      </if>
-      <if test="proid != null" >
-        proId,
       </if>
       <if test="userid != null" >
         userId,
@@ -68,20 +68,17 @@
       <if test="proname != null" >
         #{proname,jdbcType=VARCHAR},
       </if>
-      <if test="guige != null" >
-        #{guige,jdbcType=VARCHAR},
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
+      <if test="priceid != null" >
+        #{priceid,jdbcType=INTEGER},
       </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="proid != null" >
-        #{proid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
@@ -94,20 +91,17 @@
       <if test="proname != null" >
         proName = #{proname,jdbcType=VARCHAR},
       </if>
-      <if test="guige != null" >
-        guige = #{guige,jdbcType=VARCHAR},
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
+      <if test="priceid != null" >
+        priceId = #{priceid,jdbcType=INTEGER},
       </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         count = #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="proid != null" >
-        proId = #{proid,jdbcType=INTEGER},
       </if>
       <if test="userid != null" >
         userId = #{userid,jdbcType=INTEGER},
@@ -118,11 +112,10 @@
   <update id="updateByPrimaryKey" parameterType="com.lanou.model.CartItem" >
     update cartItem
     set proName = #{proname,jdbcType=VARCHAR},
-      guige = #{guige,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
+      picture = #{picture,jdbcType=VARCHAR},
+      priceId = #{priceid,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       count = #{count,jdbcType=DOUBLE},
-      proId = #{proid,jdbcType=INTEGER},
       userId = #{userid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -143,11 +136,11 @@
     where id = #{id}
   </update>
 
-  <!-- 根据用户id和商品id查找item -->
-  <select id="selectItemByUidAndPid" parameterType="CartItem" resultType="CartItem">
+  <!-- 根据userid和priceid获得item -->
+  <select id="findItemByproIdAndpriId" parameterType="CartItem" resultType="CartItem">
     select * from cartItem
     where userId = #{userid}
-    and proId = #{proid}
+    and priceId = #{priceid}
   </select>
 
   <!-- 移除item -->
@@ -155,6 +148,5 @@
     delete from cartItem
     where id = #{id}
   </delete>
-
 
 </mapper>

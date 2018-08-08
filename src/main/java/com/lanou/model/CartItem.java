@@ -5,18 +5,17 @@ public class CartItem {
 
     private String proname;
 
-    private String guige;
+    private String picture;
 
-    private Double price;
+    private Integer priceid;
 
     private Integer num;
 
     private Double count;
 
-    private Integer proid;
-
     private Integer userid;
 
+<<<<<<< HEAD
     private String picture;
 
     public String getPicture() {
@@ -25,6 +24,26 @@ public class CartItem {
 
     public void setPicture(String picture) {
         this.picture = picture;
+=======
+    private Double unitPrice;
+
+    private String norms;
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public String getNorms() {
+        return norms;
+    }
+
+    public void setNorms(String norms) {
+        this.norms = norms;
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
     }
 
     public Integer getId() {
@@ -43,20 +62,20 @@ public class CartItem {
         this.proname = proname == null ? null : proname.trim();
     }
 
-    public String getGuige() {
-        return guige;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setGuige(String guige) {
-        this.guige = guige == null ? null : guige.trim();
+    public void setPicture(String picture) {
+        this.picture = picture == null ? null : picture.trim();
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getPriceid() {
+        return priceid;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceid(Integer priceid) {
+        this.priceid = priceid;
     }
 
     public Integer getNum() {
@@ -75,14 +94,6 @@ public class CartItem {
         this.count = count;
     }
 
-    public Integer getProid() {
-        return proid;
-    }
-
-    public void setProid(Integer proid) {
-        this.proid = proid;
-    }
-
     public Integer getUserid() {
         return userid;
     }
@@ -91,19 +102,32 @@ public class CartItem {
         this.userid = userid;
     }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     @Override
     public String toString() {
         return "CartItem{" +
                 "id=" + id +
                 ", proname='" + proname + '\'' +
-                ", guige='" + guige + '\'' +
-                ", price=" + price +
+                ", picture='" + picture + '\'' +
+                ", priceid=" + priceid +
                 ", num=" + num +
                 ", count=" + count +
-                ", proid=" + proid +
                 ", userid=" + userid +
+<<<<<<< HEAD
                 ", picture='" + picture + '\'' +
                 '}';
     }
+=======
+                ", unitPrice=" + unitPrice +
+                ", norms='" + norms + '\'' +
+                '}';
+    }
+<<<<<<< HEAD
+=======
+
+>>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
+>>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 }

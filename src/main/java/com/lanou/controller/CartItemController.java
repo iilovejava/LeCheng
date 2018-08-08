@@ -1,17 +1,13 @@
 package com.lanou.controller;
 
+import com.lanou.dao.CartItemMapper;
+import com.lanou.dao.OrderMapper;
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
-<<<<<<< HEAD
-=======
-
-import com.lanou.model.Indent;
-
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
+import com.lanou.model.Order;
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
-import com.lanou.service.IndentService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,10 +28,12 @@ public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
     @Autowired
-    private ;
+    private CartItemMapper cartItemMapper;
 
     @Autowired
     private ShopCartMapper shopCartMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     // 查看购物车
     @ResponseBody
@@ -91,11 +89,7 @@ public class CartItemController {
         }
     }
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
     @ResponseBody
     @RequestMapping(value = "addIndent")
     public ServiceResponse addIndent(Integer userid) {
@@ -103,8 +97,20 @@ public class CartItemController {
         String string = format.format(new Date());
         System.out.println(string);
 
-
-
+        List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
+        for (CartItem c : cartItems) {
+            Order order = new Order();
+            order.setOrderid(string);
+            order.setProname(c.getProname());
+            order.setPicture(c.getPicture());
+            order.setGuige(c.getGuige());
+            order.setPrice(c.getPrice());
+            order.setNum(c.getNum());
+            order.setCount(c.getCount());
+            order.setProid(c.getProid());
+            order.setUserid(c.getUserid());
+            orderMapper.insertSelective(order);
+        }
         return  ServiceResponse.createSuccess("添加订单成功");
     }
 
@@ -152,9 +158,5 @@ public class CartItemController {
             return ServiceResponse.createSuccess("清空购物车成功");
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 0e44adcda3c5b6c4e84b39849e04b83aba5add2c
 
 }

@@ -1,9 +1,13 @@
 package com.lanou.model;
 
-public class CartItem {
+public class Order {
     private Integer id;
 
+    private String orderid;
+
     private String proname;
+
+    private String picture;
 
     private String guige;
 
@@ -17,16 +21,6 @@ public class CartItem {
 
     private Integer userid;
 
-    private String picture;
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -35,12 +29,28 @@ public class CartItem {
         this.id = id;
     }
 
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid == null ? null : orderid.trim();
+    }
+
     public String getProname() {
         return proname;
     }
 
     public void setProname(String proname) {
         this.proname = proname == null ? null : proname.trim();
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture == null ? null : picture.trim();
     }
 
     public String getGuige() {
@@ -89,21 +99,5 @@ public class CartItem {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
-    }
-
-
-    @Override
-    public String toString() {
-        return "CartItem{" +
-                "id=" + id +
-                ", proname='" + proname + '\'' +
-                ", guige='" + guige + '\'' +
-                ", price=" + price +
-                ", num=" + num +
-                ", count=" + count +
-                ", proid=" + proid +
-                ", userid=" + userid +
-                ", picture='" + picture + '\'' +
-                '}';
     }
 }

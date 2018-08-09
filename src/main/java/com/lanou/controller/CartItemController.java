@@ -1,28 +1,22 @@
 package com.lanou.controller;
 
 
-<<<<<<< HEAD
 import com.lanou.dao.OrderMapper;
-=======
 import com.lanou.dao.CartItemMapper;
 
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 import com.lanou.dao.*;
 import com.lanou.model.*;
 
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
-<<<<<<< HEAD
 
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
-=======
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
 import com.lanou.service.DingService;
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,11 +33,8 @@ import java.util.List;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
-<<<<<<< HEAD
-=======
     @Autowired
     private DingService dingService;
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 
     @Autowired
     private CartItemMapper cartItemMapper;
@@ -52,11 +43,8 @@ public class CartItemController {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
-<<<<<<< HEAD
-=======
     private DingMapper dingMapper;
     @Autowired
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
     private ProductMapper productMapper;
     @Autowired
     private ValueMapper valueMapper;
@@ -78,7 +66,6 @@ public class CartItemController {
             item.setUnitPrice(item.getCount() / item.getNum());
             // 获得描述
             Price price = priceMapper.findPriceBypriId(item.getPriceid());
-<<<<<<< HEAD
             String one;
             String two;
             String three;
@@ -105,12 +92,10 @@ public class CartItemController {
             // 商品id
             Product product = productMapper.selectProid(item.getProname());
             item.setProid(product.getProductid());
-=======
             String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
             String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
             String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
             item.setNorms(one + " " + two + " " + three);
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
             // 总计
             amount += item.getCount();
         }
@@ -178,13 +163,10 @@ public class CartItemController {
     // 添加商品
     @ResponseBody
     @RequestMapping(value = "add")
-<<<<<<< HEAD
     public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
         Price price = priceMapper.selectByPrimaryKey(priceid);
-=======
     public ServiceResponse addCartItem(Integer priceid, Integer num, Integer userid) {
         Price price = priceMapper.findPriceBypriId(priceid);
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
         // 根据userId遍历购物车
         List<CartItem> items = cartItemService.selectByUserId(userid);
         // 遍利购物车
@@ -242,8 +224,6 @@ public class CartItemController {
     }
 
 
-<<<<<<< HEAD
-=======
     // 修改商品数量
 //    @ResponseBody
 //    @RequestMapping(value = "jia")
@@ -255,12 +235,10 @@ public class CartItemController {
 //        }
 //        return ServiceResponse.createSuccess("数量修改成功");
 //    }
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 
 
       // 修改商品数量
     @ResponseBody
-<<<<<<< HEAD
     @RequestMapping(value = "num")
     public ServiceResponse updateItem(Integer itemid,Integer num,Double price) {
         CartItem item = cartItemService.selectByPrimaryKey(itemid);
@@ -278,7 +256,6 @@ public class CartItemController {
             } else {
                 return ServiceResponse.createSuccess("购物车数据更新成功");
             }
-=======
     @RequestMapping(value = "delete")
     public ServiceResponse deleteItem(Integer userid, Integer priceid) {
         CartItem cartItem = new CartItem();
@@ -289,7 +266,6 @@ public class CartItemController {
         int res = cartItemService.deleteItemById(item.getId());
         if (res != 1) {
             return ServiceResponse.createError(1, "商品移除失败");
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
         }
         return ServiceResponse.createError(1,"商品项更新失败");
         
@@ -307,7 +283,6 @@ public class CartItemController {
             }
             return ServiceResponse.createSuccess("移除成功");
         }
-<<<<<<< HEAD
 
         // 清空购物车
         @ResponseBody
@@ -321,11 +296,9 @@ public class CartItemController {
             if (items.size() != 0) {
                 return ServiceResponse.createError(1,"清空购物车失败");
             }
-=======
         if (items.size() != 0) {
             return ServiceResponse.createError(1, "清空失败");
         } else {
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
             return ServiceResponse.createSuccess("清空购物车成功");
         }
 

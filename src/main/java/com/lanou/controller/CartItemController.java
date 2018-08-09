@@ -8,17 +8,9 @@ import com.lanou.model.*;
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
 
-
-import com.lanou.model.Indent;
-
-import com.lanou.dao.ShopCartMapper;
-import com.lanou.model.CartItem;
-import com.lanou.model.Order;
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
-import com.lanou.service.IndentService;
-import com.lanou.service.ValueService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -87,7 +75,11 @@ public class CartItemController {
             } else {
                 three = v3.getValue();
             }
+            // 描述
             item.setNorms(one +" " + two + " " + three);
+            // 商品id
+            Product product = productMapper.selectProid(item.getProname());
+            item.setProid(product.getProductid());
             // 总计
             amount += item.getCount();
         }
@@ -159,37 +151,6 @@ public class CartItemController {
     }
 
 
-//    @ResponseBody
-//    @RequestMapping(value = "addIndent")
-//    public ServiceResponse addIndent(String str) {
-//        System.out.println(str);
-//        Map<String, Indent> m
-// ap = JSON.parseObject(str, new TypeReference<Map<String, Indent>>() {
-//        });
-//        System.out.println(map);
-//
-//        return ServiceResponse.createSuccess("添加订单成功");
-//    public ServiceResponse addIndent(Integer userid) {
-//        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-//        String string = format.format(new Date());
-//        System.out.println(string);
-//
-//        List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
-//        for (CartItem c : cartItems) {
-//            Order order = new Order();
-//            order.setOrderid(string);
-//            order.setProname(c.getProname());
-//            order.setPicture(c.getPicture());
-//            order.setGuige(c.getGuige());
-//            order.setPrice(c.getPrice());
-//            order.setNum(c.getNum());
-//            order.setCount(c.getCount());
-//            order.setProid(c.getProid());
-//            order.setUserid(c.getUserid());
-//            orderMapper.insertSelective(order);
-//        }
-//        return  ServiceResponse.createSuccess("添加订单成功");
-//    }
 
 
       // 修改商品数量

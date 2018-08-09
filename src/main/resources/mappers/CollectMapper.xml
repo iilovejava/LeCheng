@@ -92,4 +92,5 @@
     delete from collect
     where userId = #{userid} AND productId = #{productid}
   </delete>
+
 </mapper>

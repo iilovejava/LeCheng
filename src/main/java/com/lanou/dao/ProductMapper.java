@@ -20,4 +20,6 @@ public interface ProductMapper {
     List<Product> selectProductsByCateId(Integer id);
 
     List<Product> selectProductsLikeName(Product pro);
+
+    Product selectProid(String name);
 }

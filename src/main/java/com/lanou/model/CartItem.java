@@ -19,6 +19,16 @@ public class CartItem {
 
     private String norms;
 
+    private Integer proid;
+
+    public Integer getProid() {
+        return proid;
+    }
+
+    public void setProid(Integer proid) {
+        this.proid = proid;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -103,6 +113,7 @@ public class CartItem {
                 ", userid=" + userid +
                 ", unitPrice=" + unitPrice +
                 ", norms='" + norms + '\'' +
+                ", proid=" + proid +
                 '}';
     }
 }

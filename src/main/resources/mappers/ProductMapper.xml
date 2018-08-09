@@ -118,5 +118,11 @@
       concat ("%",#{productname},"%")
   </select>
 
+  <!-- 根据商品name 获取商品id -->
+  <select id="selectProid" parameterType="Product" resultType="Product">
+    select * from product
+    where productName = #{name}
+  </select>
+
 
 </mapper>

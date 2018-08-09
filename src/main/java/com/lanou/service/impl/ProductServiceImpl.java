@@ -30,4 +30,9 @@ public class ProductServiceImpl implements ProductService {
         List<Product> list = productMapper.selectProductsLikeName(pro);
         return list;
     }
+
+    public Product selectProid(String name) {
+        Product product = productMapper.selectProid(name);
+        return product;
+    }
 }

@@ -9,17 +9,23 @@ public class Order {
 
     private String picture;
 
-    private String guige;
-
-    private Double price;
+    private Integer priceid;
 
     private Integer num;
 
     private Double count;
 
-    private Integer proid;
+    private String norms;
 
-    private Integer userid;
+    private Double unitPrice;
+
+    public String getNorms() {
+        return norms;
+    }
+
+    public void setNorms(String norms) {
+        this.norms = norms;
+    }
 
     public Integer getId() {
         return id;
@@ -53,20 +59,12 @@ public class Order {
         this.picture = picture == null ? null : picture.trim();
     }
 
-    public String getGuige() {
-        return guige;
+    public Integer getPriceid() {
+        return priceid;
     }
 
-    public void setGuige(String guige) {
-        this.guige = guige == null ? null : guige.trim();
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceid(Integer priceid) {
+        this.priceid = priceid;
     }
 
     public Integer getNum() {
@@ -85,19 +83,26 @@ public class Order {
         this.count = count;
     }
 
-    public Integer getProid() {
-        return proid;
+    public Double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setProid(Integer proid) {
-        this.proid = proid;
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderid='" + orderid + '\'' +
+                ", proname='" + proname + '\'' +
+                ", picture='" + picture + '\'' +
+                ", priceid=" + priceid +
+                ", num=" + num +
+                ", count=" + count +
+                ", norms='" + norms + '\'' +
+                ", unitPrice=" + unitPrice +
+                '}';
     }
 }

@@ -1,16 +1,28 @@
 package com.lanou.controller;
 
 
+<<<<<<< HEAD
 import com.lanou.dao.OrderMapper;
+=======
+import com.lanou.dao.CartItemMapper;
+
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 import com.lanou.dao.*;
 import com.lanou.model.*;
 
 import com.lanou.dao.ShopCartMapper;
 import com.lanou.model.CartItem;
+<<<<<<< HEAD
 
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
+=======
+import com.lanou.model.ShopCart;
+
+import com.lanou.service.CartItemService;
+import com.lanou.service.DingService;
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +39,24 @@ import java.util.List;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
+<<<<<<< HEAD
+=======
+    @Autowired
+    private DingService dingService;
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 
+    @Autowired
+    private CartItemMapper cartItemMapper;
     @Autowired
     private ShopCartMapper shopCartMapper;
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
+<<<<<<< HEAD
+=======
+    private DingMapper dingMapper;
+    @Autowired
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
     private ProductMapper productMapper;
     @Autowired
     private ValueMapper valueMapper;
@@ -51,9 +75,10 @@ public class CartItemController {
         Double amount = 0D;
         for (CartItem item : items) {
             // 获得单价
-            item.setUnitPrice(item.getCount()/item.getNum());
+            item.setUnitPrice(item.getCount() / item.getNum());
             // 获得描述
             Price price = priceMapper.findPriceBypriId(item.getPriceid());
+<<<<<<< HEAD
             String one;
             String two;
             String three;
@@ -80,6 +105,12 @@ public class CartItemController {
             // 商品id
             Product product = productMapper.selectProid(item.getProname());
             item.setProid(product.getProductid());
+=======
+            String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
+            String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
+            String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
+            item.setNorms(one + " " + two + " " + three);
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
             // 总计
             amount += item.getCount();
         }
@@ -89,17 +120,77 @@ public class CartItemController {
         return shopCart;
     }
 
+    // 购物车转换成订单
+    @ResponseBody
+    @RequestMapping(value = "ding")
+    public Ding addding(Integer userid) {
+        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = format.format(new Date());
+
+        List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
+        for (CartItem c : cartItems) {
+            Order order = new Order();
+            order.setOrderid(string);
+            order.setProname(c.getProname());
+            order.setPicture(c.getPicture());
+            order.setPriceid(c.getPriceid());
+            order.setNum(c.getNum());
+            order.setCount(c.getCount());
+            orderMapper.insert(order);
+        }
+
+        Ding ding = new Ding();
+        ding.setUserid(userid);
+        ding.setOrderid(string);
+        dingMapper.insert(ding);
+
+        deleteAll(userid);
+        return ding;
+    }
+
+    // 查看订单
+    @ResponseBody
+    @RequestMapping(value = "findding")
+    public List<Ding> findding(Integer userid) {
+        List<Ding> dings = dingService.findByUserid(userid);
+        Double amount = 0D;
+        for (Ding ding : dings) {
+            String orderid = ding.getOrderid();
+            List<Order> orders = orderMapper.findByOrderid(orderid);
+            for (Order order : orders) {
+                order.setUnitPrice(order.getCount() / order.getNum());
+                // 获得描述
+                Price price = priceMapper.findPriceBypriId(order.getPriceid());
+                String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
+                String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
+                String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
+                order.setNorms(one + " " + two + " " + three);
+                // 总计
+                amount += order.getCount();
+            }
+            ding.setCount(amount);
+            ding.setOrders(orders);
+        }
+        return dings;
+
+    }
+
     // 添加商品
     @ResponseBody
     @RequestMapping(value = "add")
+<<<<<<< HEAD
     public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
         Price price = priceMapper.selectByPrimaryKey(priceid);
+=======
+    public ServiceResponse addCartItem(Integer priceid, Integer num, Integer userid) {
+        Price price = priceMapper.findPriceBypriId(priceid);
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
         // 根据userId遍历购物车
         List<CartItem> items = cartItemService.selectByUserId(userid);
         // 遍利购物车
         for (CartItem item : items) {
             // 需要根据priceId判断购物车是否已有该商品
-            if (item.getPriceid() == priceid){
+            if (item.getPriceid() == priceid) {
                 // 商品已在购物车 数量相加
                 item.setNum(item.getNum() + num);
                 int n = item.getNum();
@@ -109,7 +200,7 @@ public class CartItemController {
                 // 更改数据库中商品数量和小计
                 int res = cartItemService.updateItem(item);
                 if (res != 1) {
-                    return ServiceResponse.createError(1,"添加购物车失败");
+                    return ServiceResponse.createError(1, "添加购物车失败");
                 }
                 return ServiceResponse.createSuccess("添加成功");
             }
@@ -128,12 +219,12 @@ public class CartItemController {
         newItem.setNum(num);
         // 小计
         newItem.setCount(price.getPrice() * num);
-       //  用户
+        //  用户
         newItem.setUserid(userid);
         // 添加到商品列表
         int res = cartItemService.insert(newItem);
 
-        if(res == 1) {
+        if (res == 1) {
             ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
             // 关联用户购物车
             ShopCart shopCart = shopCartMapper.selectCart(userid);
@@ -145,16 +236,31 @@ public class CartItemController {
             }
             return serviceResponse;
         } else {
-            ServiceResponse serviceResponse = ServiceResponse.createError(1,"添加失败");
+            ServiceResponse serviceResponse = ServiceResponse.createError(1, "添加失败");
             return serviceResponse;
         }
     }
 
 
+<<<<<<< HEAD
+=======
+    // 修改商品数量
+//    @ResponseBody
+//    @RequestMapping(value = "jia")
+//    public ServiceResponse updateItem(Integer userid,Integer proid,Integer num) {
+//        CartItem item = cartItemService.selectItem(cartItem);
+//        int res = cartItemService.updateItem(item.getNum());
+//        if (res != 1) {
+//            return ServiceResponse.createError(1,"商品数量修改失败");
+//        }
+//        return ServiceResponse.createSuccess("数量修改成功");
+//    }
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 
 
       // 修改商品数量
     @ResponseBody
+<<<<<<< HEAD
     @RequestMapping(value = "num")
     public ServiceResponse updateItem(Integer itemid,Integer num,Double price) {
         CartItem item = cartItemService.selectByPrimaryKey(itemid);
@@ -172,6 +278,18 @@ public class CartItemController {
             } else {
                 return ServiceResponse.createSuccess("购物车数据更新成功");
             }
+=======
+    @RequestMapping(value = "delete")
+    public ServiceResponse deleteItem(Integer userid, Integer priceid) {
+        CartItem cartItem = new CartItem();
+        cartItem.setUserid(userid);
+        cartItem.setPriceid(priceid);
+        CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
+        // 根据id移除item
+        int res = cartItemService.deleteItemById(item.getId());
+        if (res != 1) {
+            return ServiceResponse.createError(1, "商品移除失败");
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
         }
         return ServiceResponse.createError(1,"商品项更新失败");
         
@@ -189,6 +307,7 @@ public class CartItemController {
             }
             return ServiceResponse.createSuccess("移除成功");
         }
+<<<<<<< HEAD
 
         // 清空购物车
         @ResponseBody
@@ -202,6 +321,11 @@ public class CartItemController {
             if (items.size() != 0) {
                 return ServiceResponse.createError(1,"清空购物车失败");
             }
+=======
+        if (items.size() != 0) {
+            return ServiceResponse.createError(1, "清空失败");
+        } else {
+>>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
             return ServiceResponse.createSuccess("清空购物车成功");
         }
 

@@ -6,18 +6,15 @@
     <result column="orderid" property="orderid" jdbcType="VARCHAR" />
     <result column="proname" property="proname" jdbcType="VARCHAR" />
     <result column="picture" property="picture" jdbcType="VARCHAR" />
-    <result column="guige" property="guige" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="priceid" property="priceid" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="DOUBLE" />
-    <result column="proid" property="proid" jdbcType="INTEGER" />
-    <result column="userid" property="userid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, orderid, proname, picture, guige, price, num, count, proid, userid
+    id, orderid, proname, picture, priceid, num, count
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from order
     where id = #{id,jdbcType=INTEGER}
@@ -28,13 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.lanou.model.Order" >
     insert into order (id, orderid, proname, 
-      picture, guige, price, 
-      num, count, proid, userid
-      )
+      picture, priceid, num, 
+      count)
     values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, #{proname,jdbcType=VARCHAR}, 
-      #{picture,jdbcType=VARCHAR}, #{guige,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
-      #{num,jdbcType=INTEGER}, #{count,jdbcType=DOUBLE}, #{proid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}
-      )
+      #{picture,jdbcType=VARCHAR}, #{priceid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
+      #{count,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.Order" >
     insert into order
@@ -51,23 +46,14 @@
       <if test="picture != null" >
         picture,
       </if>
-      <if test="guige != null" >
-        guige,
-      </if>
-      <if test="price != null" >
-        price,
+      <if test="priceid != null" >
+        priceid,
       </if>
       <if test="num != null" >
         num,
       </if>
       <if test="count != null" >
         count,
-      </if>
-      <if test="proid != null" >
-        proid,
-      </if>
-      <if test="userid != null" >
-        userid,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -83,23 +69,14 @@
       <if test="picture != null" >
         #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="guige != null" >
-        #{guige,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
+      <if test="priceid != null" >
+        #{priceid,jdbcType=INTEGER},
       </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="proid != null" >
-        #{proid,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -115,23 +92,14 @@
       <if test="picture != null" >
         picture = #{picture,jdbcType=VARCHAR},
       </if>
-      <if test="guige != null" >
-        guige = #{guige,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
+      <if test="priceid != null" >
+        priceid = #{priceid,jdbcType=INTEGER},
       </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
       </if>
       <if test="count != null" >
         count = #{count,jdbcType=DOUBLE},
-      </if>
-      <if test="proid != null" >
-        proid = #{proid,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null" >
-        userid = #{userid,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -141,12 +109,15 @@
     set orderid = #{orderid,jdbcType=VARCHAR},
       proname = #{proname,jdbcType=VARCHAR},
       picture = #{picture,jdbcType=VARCHAR},
-      guige = #{guige,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
+      priceid = #{priceid,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
-      count = #{count,jdbcType=DOUBLE},
-      proid = #{proid,jdbcType=INTEGER},
-      userid = #{userid,jdbcType=INTEGER}
+      count = #{count,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="findByOrderid" resultType="Order" parameterType="int" >
+    select * from order
+    where orderid = #{orderid}
+  </select>
 </mapper>

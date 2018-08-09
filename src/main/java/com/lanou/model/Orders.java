@@ -1,6 +1,6 @@
 package com.lanou.model;
 
-public class Order {
+public class Orders {
     private Integer id;
 
     private String orderid;
@@ -15,17 +15,9 @@ public class Order {
 
     private Double count;
 
-    private String norms;
-
     private Double unitPrice;
 
-    public String getNorms() {
-        return norms;
-    }
-
-    public void setNorms(String norms) {
-        this.norms = norms;
-    }
+    private String norms;
 
     public Integer getId() {
         return id;
@@ -83,6 +75,14 @@ public class Order {
         this.count = count;
     }
 
+    public String getNorms() {
+        return norms;
+    }
+
+    public void setNorms(String norms) {
+        this.norms = norms;
+    }
+
     public Double getUnitPrice() {
         return unitPrice;
     }
@@ -93,7 +93,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Orders{" +
                 "id=" + id +
                 ", orderid='" + orderid + '\'' +
                 ", proname='" + proname + '\'' +
@@ -101,8 +101,8 @@ public class Order {
                 ", priceid=" + priceid +
                 ", num=" + num +
                 ", count=" + count +
-                ", norms='" + norms + '\'' +
                 ", unitPrice=" + unitPrice +
+                ", norms='" + norms + '\'' +
                 '}';
     }
 }

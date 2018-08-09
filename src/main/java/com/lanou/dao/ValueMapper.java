@@ -20,4 +20,5 @@ public interface ValueMapper {
     List<Value> selectValuesByAttrId(Integer id);
 
     List<Value> selectValuesByProId(Value value);
+
 }

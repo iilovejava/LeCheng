@@ -11,13 +11,13 @@ public class Ding {
 
     private Double count;
 
-    private List<Order> orders;
+    private List<Orders> orders;
 
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 

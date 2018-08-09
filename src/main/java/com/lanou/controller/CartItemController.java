@@ -39,7 +39,7 @@ public class CartItemController {
     @Autowired
     private ShopCartMapper shopCartMapper;
     @Autowired
-    private OrderMapper orderMapper;
+    private OrdersMapper ordersMapper;
     @Autowired
     private DingMapper dingMapper;
     @Autowired
@@ -80,19 +80,22 @@ public class CartItemController {
     @ResponseBody
     @RequestMapping(value = "ding")
     public Ding addding(Integer userid) {
+        System.out.println(userid);
         Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+
         String string = format.format(new Date());
+        System.out.println(string);
 
         List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
         for (CartItem c : cartItems) {
-            Order order = new Order();
+            Orders order = new Orders();
             order.setOrderid(string);
             order.setProname(c.getProname());
             order.setPicture(c.getPicture());
             order.setPriceid(c.getPriceid());
             order.setNum(c.getNum());
             order.setCount(c.getCount());
-            orderMapper.insert(order);
+            ordersMapper.insert(order);
         }
 
         Ding ding = new Ding();
@@ -103,30 +106,63 @@ public class CartItemController {
         deleteAll(userid);
         return ding;
     }
+    // 订单 购买单个商品
+    @ResponseBody
+    @RequestMapping(value = "buy")
+    public Ding buyding(Orders order) {
+        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = format.format(new Date());
+        order.setOrderid(string);
+        int insert = ordersMapper.insert(order);
+        return null;
+    }
 
     // 查看订单
     @ResponseBody
     @RequestMapping(value = "findding")
     public List<Ding> findding(Integer userid) {
+        System.out.println(userid);
         List<Ding> dings = dingService.findByUserid(userid);
         Double amount = 0D;
         for (Ding ding : dings) {
             String orderid = ding.getOrderid();
-            List<Order> orders = orderMapper.findByOrderid(orderid);
-            for (Order order : orders) {
+            List<Orders> orders = ordersMapper.findByOrderid(orderid);
+            System.out.println(orders);
+            for (Orders order : orders) {
                 order.setUnitPrice(order.getCount() / order.getNum());
                 // 获得描述
                 Price price = priceMapper.findPriceBypriId(order.getPriceid());
-                String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
-                String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
-                String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
-                order.setNorms(one + " " + two + " " + three);
+                String one;
+                String two;
+                String three;
+                Value v1 = valueMapper.selectByPrimaryKey(price.getOne());
+                if (v1 == null){
+                    one = " ";
+                } else {
+                    one = v1.getValue();
+                }
+                Value v2 = valueMapper.selectByPrimaryKey(price.getTwo());
+                if (v2 == null){
+                    two = " ";
+                } else {
+                    two = v2.getValue();
+                }
+                Value v3 = valueMapper.selectByPrimaryKey(price.getThree());
+                if (v3 == null){
+                    three = " ";
+                } else {
+                    three = v3.getValue();
+                }
+                // 描述
+                order.setNorms(one +" " + two + " " + three);
+
                 // 总计
                 amount += order.getCount();
             }
             ding.setCount(amount);
             ding.setOrders(orders);
         }
+        System.out.println(dings);
         return dings;
 
     }
@@ -237,4 +273,10 @@ public class CartItemController {
         }
     }
 
+
+////    <select id="findByOrderid" resultType="Order" parameterType="int" >
+//    select * from order
+//    where orderid = #{orderid}
+//  </select>
+    //List<Order> findByOrderid(String orderid);
 }

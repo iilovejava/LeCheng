@@ -20,10 +20,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lanou.model.Ding" >
-    insert into ding (id, userid, orderid
-      )
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}
-      )
+    insert into ding (userid, orderid)
+    values ( #{userid,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lanou.model.Ding" >
     insert into ding

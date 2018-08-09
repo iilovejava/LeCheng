@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.lanou.dao.OrderMapper" >
-  <resultMap id="BaseResultMap" type="com.lanou.model.Order" >
+<mapper namespace="com.lanou.dao.OrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.lanou.model.Orders" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="orderid" property="orderid" jdbcType="VARCHAR" />
     <result column="proname" property="proname" jdbcType="VARCHAR" />
@@ -14,25 +14,25 @@
     id, orderid, proname, picture, priceid, num, count
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select
+    select 
     <include refid="Base_Column_List" />
-    from order
+    from orders
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from order
+    delete from orders
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lanou.model.Order" >
-    insert into order (id, orderid, proname, 
+  <insert id="insert" parameterType="com.lanou.model.Orders" >
+    insert into orders (id, orderid, proname, 
       picture, priceid, num, 
       count)
     values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, #{proname,jdbcType=VARCHAR}, 
       #{picture,jdbcType=VARCHAR}, #{priceid,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
       #{count,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="com.lanou.model.Order" >
-    insert into order
+  <insert id="insertSelective" parameterType="com.lanou.model.Orders" >
+    insert into orders
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -80,8 +80,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Order" >
-    update order
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanou.model.Orders" >
+    update orders
     <set >
       <if test="orderid != null" >
         orderid = #{orderid,jdbcType=VARCHAR},
@@ -104,8 +104,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Order" >
-    update order
+  <update id="updateByPrimaryKey" parameterType="com.lanou.model.Orders" >
+    update orders
     set orderid = #{orderid,jdbcType=VARCHAR},
       proname = #{proname,jdbcType=VARCHAR},
       picture = #{picture,jdbcType=VARCHAR},
@@ -115,9 +115,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
-  <select id="findByOrderid" resultType="Order" parameterType="int" >
-    select * from order
-    where orderid = #{orderid}
+  <select id="findByOrderid" resultType="Orders" parameterType="String" >
+      select * from orders
+      where orderid = #{orderid}
   </select>
 </mapper>

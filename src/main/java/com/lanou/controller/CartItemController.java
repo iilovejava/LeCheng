@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -92,9 +95,9 @@ public class CartItemController {
             // 商品id
             Product product = productMapper.selectProid(item.getProname());
             item.setProid(product.getProductid());
-            String one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
-            String two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
-            String three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
+            one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
+            two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
+            three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
             item.setNorms(one + " " + two + " " + three);
             // 总计
             amount += item.getCount();
@@ -109,6 +112,7 @@ public class CartItemController {
     @ResponseBody
     @RequestMapping(value = "ding")
     public Ding addding(Integer userid) {
+
         Format format = new SimpleDateFormat("yyyyMMddHHmmss");
         String string = format.format(new Date());
 
@@ -129,7 +133,6 @@ public class CartItemController {
         ding.setOrderid(string);
         dingMapper.insert(ding);
 
-        deleteAll(userid);
         return ding;
     }
 
@@ -165,76 +168,64 @@ public class CartItemController {
     @RequestMapping(value = "add")
     public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
         Price price = priceMapper.selectByPrimaryKey(priceid);
-    public ServiceResponse addCartItem(Integer priceid, Integer num, Integer userid) {
-        Price price = priceMapper.findPriceBypriId(priceid);
-        // 根据userId遍历购物车
-        List<CartItem> items = cartItemService.selectByUserId(userid);
-        // 遍利购物车
-        for (CartItem item : items) {
-            // 需要根据priceId判断购物车是否已有该商品
-            if (item.getPriceid() == priceid) {
-                // 商品已在购物车 数量相加
-                item.setNum(item.getNum() + num);
-                int n = item.getNum();
-                Price unit = priceMapper.findPriceBypriId(item.getPriceid());
-                // 更改小计
-                item.setCount(unit.getPrice() * n);
-                // 更改数据库中商品数量和小计
-                int res = cartItemService.updateItem(item);
-                if (res != 1) {
-                    return ServiceResponse.createError(1, "添加购物车失败");
+        public ServiceResponse addCartItem (Integer priceid, Integer num, Integer userid){
+            Price price = priceMapper.findPriceBypriId(priceid);
+            // 根据userId遍历购物车
+            List<CartItem> items = cartItemService.selectByUserId(userid);
+            // 遍利购物车
+            for (CartItem item : items) {
+                // 需要根据priceId判断购物车是否已有该商品
+                if (item.getPriceid() == priceid) {
+                    // 商品已在购物车 数量相加
+                    item.setNum(item.getNum() + num);
+                    int n = item.getNum();
+                    Price unit = priceMapper.findPriceBypriId(item.getPriceid());
+                    // 更改小计
+                    item.setCount(unit.getPrice() * n);
+                    // 更改数据库中商品数量和小计
+                    int res = cartItemService.updateItem(item);
+                    if (res != 1) {
+                        return ServiceResponse.createError(1, "添加购物车失败");
+                    }
+                    return ServiceResponse.createSuccess("添加成功");
                 }
-                return ServiceResponse.createSuccess("添加成功");
             }
-        }
-        CartItem newItem = new CartItem();
-        Product product = productMapper.selectByPrimaryKey(price.getProid());
-        // 商品名称
-        newItem.setProname(product.getProductname());
+            CartItem newItem = new CartItem();
+            Product product = productMapper.selectByPrimaryKey(price.getProid());
+            // 商品名称
+            newItem.setProname(product.getProductname());
 
-        List<Picture> list = pictureMapper.selectPicture(product.getProductid());
-        // 商品图片
-        newItem.setPicture(list.get(0).getPicurl());
-        // 价格id
-        newItem.setPriceid(priceid);
-        // 数量
-        newItem.setNum(num);
-        // 小计
-        newItem.setCount(price.getPrice() * num);
-        //  用户
-        newItem.setUserid(userid);
-        // 添加到商品列表
-        int res = cartItemService.insert(newItem);
+            List<Picture> list = pictureMapper.selectPicture(product.getProductid());
+            // 商品图片
+            newItem.setPicture(list.get(0).getPicurl());
+            // 价格id
+            newItem.setPriceid(priceid);
+            // 数量
+            newItem.setNum(num);
+            // 小计
+            newItem.setCount(price.getPrice() * num);
+            //  用户
+            newItem.setUserid(userid);
+            // 添加到商品列表
+            int res = cartItemService.insert(newItem);
 
-        if (res == 1) {
-            ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
-            // 关联用户购物车
-            ShopCart shopCart = shopCartMapper.selectCart(userid);
-            if (shopCart == null) {
-                ShopCart newCart = new ShopCart();
-                newCart.setUserid(userid);
-                shopCartMapper.insert(newCart);
+            if (res == 1) {
+                ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
+                // 关联用户购物车
+                ShopCart shopCart = shopCartMapper.selectCart(userid);
+                if (shopCart == null) {
+                    ShopCart newCart = new ShopCart();
+                    newCart.setUserid(userid);
+                    shopCartMapper.insert(newCart);
+                    return serviceResponse;
+                }
+                return serviceResponse;
+            } else {
+                ServiceResponse serviceResponse = ServiceResponse.createError(1, "添加失败");
                 return serviceResponse;
             }
-            return serviceResponse;
-        } else {
-            ServiceResponse serviceResponse = ServiceResponse.createError(1, "添加失败");
-            return serviceResponse;
         }
     }
-
-
-    // 修改商品数量
-//    @ResponseBody
-//    @RequestMapping(value = "jia")
-//    public ServiceResponse updateItem(Integer userid,Integer proid,Integer num) {
-//        CartItem item = cartItemService.selectItem(cartItem);
-//        int res = cartItemService.updateItem(item.getNum());
-//        if (res != 1) {
-//            return ServiceResponse.createError(1,"商品数量修改失败");
-//        }
-//        return ServiceResponse.createSuccess("数量修改成功");
-//    }
 
 
       // 修改商品数量
@@ -252,10 +243,12 @@ public class CartItemController {
             shopCart.setCount(com - con + (price * num));
             int result = shopCartMapper.updateCart(shopCart);
             if (result != 1) {
-                return ServiceResponse.createError(1,"购物车数据更新失败");
+                return ServiceResponse.createError(1, "购物车数据更新失败");
             } else {
                 return ServiceResponse.createSuccess("购物车数据更新成功");
             }
+        }
+    }
     @RequestMapping(value = "delete")
     public ServiceResponse deleteItem(Integer userid, Integer priceid) {
         CartItem cartItem = new CartItem();
@@ -296,10 +289,10 @@ public class CartItemController {
             if (items.size() != 0) {
                 return ServiceResponse.createError(1,"清空购物车失败");
             }
-        if (items.size() != 0) {
-            return ServiceResponse.createError(1, "清空失败");
-        } else {
+            if (items.size() != 0) {
+                return ServiceResponse.createError(1, "清空失败");
+            } else {
             return ServiceResponse.createSuccess("清空购物车成功");
-        }
+            }
 
     }

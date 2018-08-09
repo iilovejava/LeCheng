@@ -19,13 +19,9 @@ public interface CartItemMapper {
 
     // 添加
     int addCartItem(CartItem cartItem);
-<<<<<<< HEAD
-=======
     // 查看
     List<CartItem> selectCartByuserId(Integer userId);
 
-
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
 
     // 根据用户id查出商品
     List<CartItem> selectByUserId(Integer userid);
@@ -36,10 +32,6 @@ public interface CartItemMapper {
     // 根据proid和priceid获得item
     CartItem findItemByproIdAndpriId(CartItem cartItem);
 
-<<<<<<< HEAD
-}
-=======
     // 移除商品
     int deleteItemById(Integer id);
 }
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938

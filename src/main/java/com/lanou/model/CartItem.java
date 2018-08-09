@@ -21,19 +21,6 @@ public class CartItem {
 
     private Integer proid;
 
-    public Integer getProid() {
-        return proid;
-    }
-
-<<<<<<< HEAD
-    public void setProid(Integer proid) {
-        this.proid = proid;
-=======
-    public void setNorms(String norms) {
-        this.norms = norms;
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
-    }
-
     public Integer getId() {
         return id;
     }
@@ -90,7 +77,6 @@ public class CartItem {
         this.userid = userid;
     }
 
-<<<<<<< HEAD
     public Double getUnitPrice() {
         return unitPrice;
     }
@@ -107,8 +93,14 @@ public class CartItem {
         this.norms = norms;
     }
 
-=======
->>>>>>> 74c3bd3e53d0f100481beafbe437cd82482b2938
+    public Integer getProid() {
+        return proid;
+    }
+
+    public void setProid(Integer proid) {
+        this.proid = proid;
+    }
+
     @Override
     public String toString() {
         return "CartItem{" +

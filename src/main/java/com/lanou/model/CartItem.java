@@ -15,16 +15,6 @@ public class CartItem {
 
     private Integer userid;
 
-<<<<<<< HEAD
-    private String picture;
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-=======
     private Double unitPrice;
 
     private String norms;
@@ -43,7 +33,6 @@ public class CartItem {
 
     public void setNorms(String norms) {
         this.norms = norms;
->>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
     }
 
     public Integer getId() {
@@ -102,10 +91,6 @@ public class CartItem {
         this.userid = userid;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
     @Override
     public String toString() {
         return "CartItem{" +
@@ -116,18 +101,8 @@ public class CartItem {
                 ", num=" + num +
                 ", count=" + count +
                 ", userid=" + userid +
-<<<<<<< HEAD
-                ", picture='" + picture + '\'' +
-                '}';
-    }
-=======
                 ", unitPrice=" + unitPrice +
                 ", norms='" + norms + '\'' +
                 '}';
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> d04a27beab9b55c0616597743fe6512207420dd6
->>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
 }

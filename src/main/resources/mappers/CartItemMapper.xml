@@ -5,12 +5,9 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="proName" property="proname" jdbcType="VARCHAR" />
     <result column="picture" property="picture" jdbcType="VARCHAR" />
-<<<<<<< HEAD
     <result column="guige" property="guige" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
-=======
     <result column="priceId" property="priceid" jdbcType="INTEGER" />
->>>>>>> 6dc31fd0c61d1143dd57f5d2842c6d31edea064c
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="count" property="count" jdbcType="DOUBLE" />
     <result column="userId" property="userid" jdbcType="INTEGER" />

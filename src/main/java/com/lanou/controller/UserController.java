@@ -1,5 +1,7 @@
 package com.lanou.controller;
 
+import com.lanou.dao.PictureMapper;
+import com.lanou.dao.PriceMapper;
 import com.lanou.model.*;
 import com.lanou.service.*;
 import com.lanou.util.ServiceResponse;
@@ -40,6 +42,10 @@ public class UserController {
     private CollectService collectService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private PictureMapper pictureMapper;
+    @Autowired
+    private PriceMapper priceMapper;
 
 
     // 注册
@@ -210,6 +216,19 @@ public class UserController {
         return ServiceResponse.createError(1,"评论失败");
     }
 
+    // 判断该用户是否收藏该商品
+    @ResponseBody
+    @RequestMapping(value = "iscollect")
+    public Boolean isCollect(Collect collect) {
+        List<Collect> list = collectService.findCollect(collect.getUserid());
+        for (Collect col : list) {
+            if (col.getProductid() == collect.getProductid()){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 查看收藏
     @ResponseBody
     @RequestMapping(value = "findcollect")
@@ -218,6 +237,12 @@ public class UserController {
         for (Collect collect : collects) {
             Integer productid = collect.getProductid();
             Product product = productService.selectByPrimaryKey(productid);
+            List<Picture> list = pictureMapper.selectPicture(productid);
+            // 图片
+            product.setProducturl(list.get(0).getPicurl());
+            // 价格
+            List<Price> prices = priceMapper.selectPrice(productid);
+            product.setPrice(prices.get(0));
             collect.setProduct(product);
         }
         return collects;
@@ -227,8 +252,8 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "addcollect")
     public ServiceResponse<String> addCollect(Collect collect) {
-        boolean all = collectService.addCollect(collect);
-        if (all){
+        int all = collectService.addCollect(collect);
+        if (all == 1){
             return ServiceResponse.createSuccess("收藏成功");
         }
         return ServiceResponse.createError(1,"收藏失败");

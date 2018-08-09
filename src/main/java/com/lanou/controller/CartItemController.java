@@ -1,7 +1,7 @@
 package com.lanou.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+
+import com.lanou.dao.OrderMapper;
 import com.lanou.dao.*;
 import com.lanou.model.*;
 
@@ -11,6 +11,9 @@ import com.lanou.model.CartItem;
 
 import com.lanou.model.Indent;
 
+import com.lanou.dao.ShopCartMapper;
+import com.lanou.model.CartItem;
+import com.lanou.model.Order;
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
@@ -39,6 +42,8 @@ public class CartItemController {
 
     @Autowired
     private ShopCartMapper shopCartMapper;
+    @Autowired
+    private OrderMapper orderMapper;
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -96,7 +101,7 @@ public class CartItemController {
     @ResponseBody
     @RequestMapping(value = "add")
     public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
-        Price price = priceMapper.findPriceBypriId(priceid);
+        Price price = priceMapper.selectByPrimaryKey(priceid);
         // 根据userId遍历购物车
         List<CartItem> items = cartItemService.selectByUserId(userid);
         // 遍利购物车
@@ -154,35 +159,44 @@ public class CartItemController {
     }
 
 
-
-    @ResponseBody
-    @RequestMapping(value = "addIndent")
-    public ServiceResponse addIndent(String str) {
-        System.out.println(str);
-        Map<String, Indent> map = JSON.parseObject(str, new TypeReference<Map<String, Indent>>() {
-        });
-        System.out.println(map);
-//        int i = indentService.addIndent(indent);
-//        if(i == 1) {
-//            return  ServiceResponse.createSuccess("添加订单成功");
-//        } else {
-//            return ServiceResponse.createError(1,"添加失败");
-//        }
-        return ServiceResponse.createSuccess("添加订单成功");
-//        public ServiceResponse addIndent (Integer userid){
-//            Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-//            String string = format.format(new Date());
-//            System.out.println(string);
+//    @ResponseBody
+//    @RequestMapping(value = "addIndent")
+//    public ServiceResponse addIndent(String str) {
+//        System.out.println(str);
+//        Map<String, Indent> m
+// ap = JSON.parseObject(str, new TypeReference<Map<String, Indent>>() {
+//        });
+//        System.out.println(map);
 //
-//            return ServiceResponse.createSuccess("添加订单成功");
+//        return ServiceResponse.createSuccess("添加订单成功");
+//    public ServiceResponse addIndent(Integer userid) {
+//        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+//        String string = format.format(new Date());
+//        System.out.println(string);
+//
+//        List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
+//        for (CartItem c : cartItems) {
+//            Order order = new Order();
+//            order.setOrderid(string);
+//            order.setProname(c.getProname());
+//            order.setPicture(c.getPicture());
+//            order.setGuige(c.getGuige());
+//            order.setPrice(c.getPrice());
+//            order.setNum(c.getNum());
+//            order.setCount(c.getCount());
+//            order.setProid(c.getProid());
+//            order.setUserid(c.getUserid());
+//            orderMapper.insertSelective(order);
 //        }
-    }
+//        return  ServiceResponse.createSuccess("添加订单成功");
+//    }
+
 
       // 修改商品数量
     @ResponseBody
     @RequestMapping(value = "num")
-    public ServiceResponse updateItem(Integer itemId,Integer num,Double price) {
-        CartItem item = cartItemService.selectByPrimaryKey(itemId);
+    public ServiceResponse updateItem(Integer itemid,Integer num,Double price) {
+        CartItem item = cartItemService.selectByPrimaryKey(itemid);
         item.setNum(num);
         Double con = item.getCount();
         item.setCount(price * num);
@@ -192,10 +206,10 @@ public class CartItemController {
             Double com = shopCart.getCount();
             shopCart.setCount(com - con + (price * num));
             int result = shopCartMapper.updateCart(shopCart);
-            if (result == 1) {
-                return ServiceResponse.createSuccess("购物车数据更新成功");
-            } else {
+            if (result != 1) {
                 return ServiceResponse.createError(1,"购物车数据更新失败");
+            } else {
+                return ServiceResponse.createSuccess("购物车数据更新成功");
             }
         }
         return ServiceResponse.createError(1,"商品项更新失败");
@@ -206,13 +220,9 @@ public class CartItemController {
         // 移除商品
         @ResponseBody
         @RequestMapping(value = "delete")
-        public ServiceResponse deleteItem (Integer userid, Integer priceid){
-            CartItem cartItem = new CartItem();
-            cartItem.setUserid(userid);
-            cartItem.setPriceid(priceid);
-            CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
+        public ServiceResponse deleteItem (Integer itemid){
             // 根据id移除item
-            int res = cartItemService.deleteItemById(item.getId());
+            int res = cartItemService.deleteByPrimaryKey(itemid);
             if (res != 1) {
                 return ServiceResponse.createError(1, "商品移除失败");
             }
@@ -225,14 +235,13 @@ public class CartItemController {
         public ServiceResponse deleteAll (Integer userid){
             List<CartItem> items = cartItemService.selectByUserId(userid);
             for (CartItem item : items) {
-                cartItemService.deleteItemById(item.getId());
+                int res = cartItemService.deleteByPrimaryKey(item.getId());
                 items.remove(item);
             }
             if (items.size() != 0) {
-                return ServiceResponse.createError(1, "清空失败");
-            } else {
-                return ServiceResponse.createSuccess("清空购物车成功");
+                return ServiceResponse.createError(1,"清空购物车失败");
             }
+            return ServiceResponse.createSuccess("清空购物车成功");
         }
 
     }

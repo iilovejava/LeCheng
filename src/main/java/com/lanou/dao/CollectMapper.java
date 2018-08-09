@@ -19,7 +19,7 @@ public interface CollectMapper {
 
     List<Collect> findCollect(Integer userId);
 
-    boolean addComment(Collect collect);
+    int addCollect(Collect collect);
 
     boolean deleteCollect(Collect collect);
 }

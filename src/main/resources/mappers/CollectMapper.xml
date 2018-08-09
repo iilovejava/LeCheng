@@ -5,6 +5,14 @@
     <id column="collectId" property="collectid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
     <result column="productId" property="productid" jdbcType="INTEGER" />
+    <collection property="product" ofType="Product">
+      <id column="productId" property="productid" jdbcType="INTEGER" />
+      <result column="productName" property="productname" jdbcType="VARCHAR" />
+      <result column="des" property="des" jdbcType="VARCHAR" />
+      <result column="productUrl" property="producturl" jdbcType="VARCHAR" />
+      <result column="productDes" property="productdes" jdbcType="VARCHAR" />
+      <result column="cateId" property="cateid" jdbcType="INTEGER" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     collectId, userId, productId
@@ -69,19 +77,19 @@
     where collectId = #{collectid,jdbcType=INTEGER}
   </update>
 
-  <select id="findCollect" resultType="Collect" parameterType="int" >
+  <select id="findCollect" resultMap="BaseResultMap" parameterType="Integer" >
     select * from collect
-    where userId = #{userId}
+    where userId = #{userid}
   </select>
 
   <!--添加收藏-->
   <insert id="addCollect" parameterType="Collect" >
     insert into collect (userId,productId)
-    values (#{userId}, #{productId})
+    values (#{userid}, #{productid})
   </insert>
 
   <delete id="deleteCollect" parameterType="Collect" >
     delete from collect
-    where userId = #{userId} AND productId = #{productId}
+    where userId = #{userid} AND productId = #{productid}
   </delete>
 </mapper>

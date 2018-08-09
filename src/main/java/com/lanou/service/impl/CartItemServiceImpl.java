@@ -37,12 +37,13 @@ public class CartItemServiceImpl implements CartItemService {
         return item;
     }
 
-
     // 移除商品
-    public int deleteItemById(Integer id) {
-        int res = cartItemMapper.deleteItemById(id);
+    public int deleteByPrimaryKey(Integer id) {
+        int res = cartItemMapper.deleteByPrimaryKey(id);
         return res;
     }
+
+
 
     // 根据id获得cartItem
     public CartItem selectByPrimaryKey(Integer id) {

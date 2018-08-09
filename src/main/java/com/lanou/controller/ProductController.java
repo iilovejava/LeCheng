@@ -86,6 +86,7 @@ public class ProductController {
     // 根据proid查询对应商品
     @ResponseBody
     @RequestMapping(value = "product")
+
     public Product selectProductByProId(Integer id) {
         // 根据proId查询value值 放入product
         Product product = productService.selectByPrimaryKey(id);

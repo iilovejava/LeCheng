@@ -10,7 +10,7 @@ import java.util.List;
 public interface CollectService {
     List<Collect> findCollect(Integer userId);
 
-    boolean addCollect(Collect collect);
+    int addCollect(Collect collect);
 
     boolean deleteCollect(Collect collect);
 }

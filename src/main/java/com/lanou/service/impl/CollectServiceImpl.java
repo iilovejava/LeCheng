@@ -21,9 +21,9 @@ public class CollectServiceImpl implements CollectService{
         return collects;
     }
 
-    public boolean addCollect(Collect collect){
-        boolean b = collectMapper.addComment(collect);
-        return b;
+    public int addCollect(Collect collect){
+        int res = collectMapper.addCollect(collect);
+        return res;
     }
 
     public boolean deleteCollect(Collect collect){

@@ -18,7 +18,7 @@ public interface CartItemService {
     CartItem findItemByproIdAndpriId(CartItem cartItem);
 
     // 删除
-    int deleteItemById(Integer id);
+    int deleteByPrimaryKey(Integer id);
 
     CartItem selectByPrimaryKey(Integer id);
 

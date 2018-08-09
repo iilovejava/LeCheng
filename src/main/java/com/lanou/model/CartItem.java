@@ -19,22 +19,6 @@ public class CartItem {
 
     private String norms;
 
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getNorms() {
-        return norms;
-    }
-
-    public void setNorms(String norms) {
-        this.norms = norms;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -48,7 +32,7 @@ public class CartItem {
     }
 
     public void setProname(String proname) {
-        this.proname = proname == null ? null : proname.trim();
+        this.proname = proname;
     }
 
     public String getPicture() {
@@ -56,7 +40,7 @@ public class CartItem {
     }
 
     public void setPicture(String picture) {
-        this.picture = picture == null ? null : picture.trim();
+        this.picture = picture;
     }
 
     public Integer getPriceid() {
@@ -89,6 +73,22 @@ public class CartItem {
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public String getNorms() {
+        return norms;
+    }
+
+    public void setNorms(String norms) {
+        this.norms = norms;
     }
 
     @Override

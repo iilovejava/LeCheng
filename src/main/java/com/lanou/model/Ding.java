@@ -11,6 +11,16 @@ public class Ding {
 
     private Double count;
 
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     private List<Orders> orders;
 
     public List<Orders> getOrders() {
@@ -45,6 +55,14 @@ public class Ding {
         return count;
     }
 
+    public void setCount(Double count) {
+        this.count = count;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
+
     @Override
     public String toString() {
         return "Ding{" +
@@ -52,15 +70,8 @@ public class Ding {
                 ", userid=" + userid +
                 ", orderid='" + orderid + '\'' +
                 ", count=" + count +
+                ", state='" + state + '\'' +
                 ", orders=" + orders +
                 '}';
-    }
-
-    public void setCount(Double count) {
-        this.count = count;
-    }
-
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
     }
 }

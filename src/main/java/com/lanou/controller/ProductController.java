@@ -1,5 +1,6 @@
 package com.lanou.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.lanou.dao.PictureMapper;
 import com.lanou.dao.PriceMapper;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -159,23 +161,28 @@ public class ProductController {
     // 模糊查询
     @ResponseBody
     @RequestMapping(value = "likename")
-    public ServiceResponse selectProductsLikeName(String string) {
+    public ServiceResponse selectProductsLikeName(String str) {
+
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        System.out.println(str);
         Product product = new Product();
-        product.setProductname(string);
+        product.setProductname(str);
         List<Product> list = productService.selectProductsLikeName(product);
         // 创建集合接收结果集
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println(list);
         ArrayList<Product> arrayList = new ArrayList();
         for (Product pro : list) {
             // 将具体商品放入arrayList
             arrayList.add(selectProductByProId(pro.getProductid()));
         }
-
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println(arrayList);
         if (arrayList.size() == 0) {
             ServiceResponse serviceResponse = ServiceResponse.createError(100,"未找到该商品");
             return serviceResponse;
         }
-            PageInfo pageInfo = new PageInfo(arrayList);
-            ServiceResponse serviceResponse = ServiceResponse.createSuccess("查询成功",pageInfo);
+            ServiceResponse serviceResponse = ServiceResponse.createSuccess("查询成功",arrayList);
             return serviceResponse;
 
     }

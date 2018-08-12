@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.lanou.model.Ding" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
-    <result column="orderid" property="orderid" jdbcType="INTEGER" />
+    <result column="orderid" property="orderid" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, userid, orderid
@@ -67,8 +68,26 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="findByUserid" resultType="Ding" parameterType="int" >
+  <select id="findByUserid" resultType="Ding" parameterType="Integer" >
     select * from ding
     where userid = #{userid}
   </select>
+
+  <select id="selectDingByorderId" resultType="Ding" parameterType="String">
+    select * from ding
+    where orderid = #{orderid}
+  </select>
+
+  <!-- 设置取消状态 -->
+  <update id="updateState" parameterType="Ding">
+    update ding
+    set
+    state = #{state}
+    where orderid = #{orderid}
+  </update>
+
+  <delete id="deleteDing" parameterType="String">
+    delete from ding
+    where orderid = #{orderid}
+  </delete>
 </mapper>

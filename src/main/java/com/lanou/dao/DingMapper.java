@@ -18,4 +18,10 @@ public interface DingMapper {
     int updateByPrimaryKey(Ding record);
 
     List<Ding> findByUserid(Integer userid);
+
+    Ding selectDingByorderId(String orderid);
+
+    int updateState(Ding ding);
+
+    int deleteDing(String orderid);
 }

@@ -1,7 +1,7 @@
 package com.lanou.controller;
 
 
-import com.lanou.dao.OrderMapper;
+import com.lanou.dao.OrdersMapper;
 import com.lanou.dao.CartItemMapper;
 
 import com.lanou.dao.*;
@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @CrossOrigin
@@ -61,95 +63,107 @@ public class CartItemController {
     @ResponseBody
     @RequestMapping(value = "find")
     public ShopCart selectCart(Integer userid) {
-        ShopCart shopCart = shopCartMapper.selectCart(userid);
-        List<CartItem> items = cartItemService.selectByUserId(userid);
-        Double amount = 0D;
-        for (CartItem item : items) {
-            // 获得单价
-            item.setUnitPrice(item.getCount() / item.getNum());
-            // 获得描述
-            Price price = priceMapper.findPriceBypriId(item.getPriceid());
-            String one;
-            String two;
-            String three;
-            Value v1 = valueMapper.selectByPrimaryKey(price.getOne());
-            if (v1 == null){
-                one = " ";
-            } else {
-                one = v1.getValue();
-            }
-            Value v2 = valueMapper.selectByPrimaryKey(price.getTwo());
-            if (v2 == null){
-                two = " ";
-            } else {
-                two = v2.getValue();
-            }
-            Value v3 = valueMapper.selectByPrimaryKey(price.getThree());
-            if (v3 == null){
-                three = " ";
-            } else {
-                three = v3.getValue();
-            }
-            // 描述
-            item.setNorms(one +" " + two + " " + three);
-            // 商品id
-            Product product = productMapper.selectProid(item.getProname());
-            item.setProid(product.getProductid());
-            one = valueMapper.selectByPrimaryKey(price.getOne()).getValue();
-            two = valueMapper.selectByPrimaryKey(price.getTwo()).getValue();
-            three = valueMapper.selectByPrimaryKey(price.getThree()).getValue();
-            item.setNorms(one + " " + two + " " + three);
-            // 总计
-            amount += item.getCount();
-        }
-        shopCart.setCount(amount);
-        shopCart.setItems(items);
-        shopCartMapper.updateCart(shopCart);
+        ShopCart shopCart = cartItemService.selectByUserId(userid);
         return shopCart;
     }
+
+
+    // 添加商品
+    @ResponseBody
+    @RequestMapping(value = "add")
+    public ServiceResponse addCartItem (Integer priceid, Integer num, Integer userid){
+        int res = cartItemService.insert(priceid,num,userid);
+
+        if (res == 1) {
+            ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
+            // 关联用户购物车
+            ShopCart shopCart = shopCartMapper.selectCart(userid);
+            if (shopCart == null) {
+                ShopCart newCart = new ShopCart();
+                newCart.setUserid(userid);
+                shopCartMapper.insert(newCart);
+                return serviceResponse;
+            }
+            return serviceResponse;
+        } else {
+            ServiceResponse serviceResponse = ServiceResponse.createError(1, "添加失败");
+            return serviceResponse;
+        }
+    }
+
+    // 移除商品
+    @ResponseBody
+    @RequestMapping(value = "delete")
+    public ServiceResponse deleteItem (Integer itemid){
+        // 根据id移除item
+        int res = cartItemService.deleteByPrimaryKey(itemid);
+        if (res != 1) {
+            return ServiceResponse.createError(1, "商品移除失败");
+        }
+        return ServiceResponse.createSuccess("移除成功");
+    }
+
+    // 清空购物车
+    @ResponseBody
+    @RequestMapping(value = "deleteAll")
+    public ServiceResponse deleteAll (Integer userid){
+        List<CartItem> items = cartItemService.deleteAll(userid);
+        if (items.size() != 0) {
+            return ServiceResponse.createError(1,"清空购物车失败");
+        } else {
+            return ServiceResponse.createSuccess("清空购物车成功");
+        }
+    }
+
+
+    // 修改商品数量
+    @ResponseBody
+    @RequestMapping(value = "num")
+    public ServiceResponse updateItem(Integer itemid,Integer num,Double price) {
+
+        int res = cartItemService.updateItem(itemid,num,price);
+        if (res == 1) {
+            return ServiceResponse.createSuccess("商品数量修改成功");
+        }
+        return ServiceResponse.createError(1,"商品项修改失败");
+    }
+
 
     // 购物车转换成订单
     @ResponseBody
     @RequestMapping(value = "ding")
-    public Ding addding(Integer userid) {
-<<<<<<< HEAD
+    public ServiceResponse addding(Integer userid) {
 
-=======
-        System.out.println(userid);
->>>>>>> fc4207f6b46b295e77778ed1312c9a25f8f463cc
-        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        String string = format.format(new Date());
-        System.out.println(string);
-
-        List<CartItem> cartItems = cartItemMapper.selectByUserId(userid);
-        for (CartItem c : cartItems) {
-            Orders order = new Orders();
-            order.setOrderid(string);
-            order.setProname(c.getProname());
-            order.setPicture(c.getPicture());
-            order.setPriceid(c.getPriceid());
-            order.setNum(c.getNum());
-            order.setCount(c.getCount());
-            ordersMapper.insert(order);
+        int res = cartItemService.addding(userid);
+        if (res != 1) {
+            return ServiceResponse.createError(1,"订单生成失败");
         }
-
-        Ding ding = new Ding();
-        ding.setUserid(userid);
-        ding.setOrderid(string);
-        dingMapper.insert(ding);
-
-        return ding;
+        return ServiceResponse.createSuccess("订单生成成功");
     }
+
     // 订单 购买单个商品
     @ResponseBody
     @RequestMapping(value = "buy")
-    public Ding buyding(Orders order) {
+    public ServiceResponse buyding(String proname, String picture, Double price, Integer num, Double count, Integer userid) {
+        Ding ding = new Ding();
+        Orders order = new Orders();
+        // 时间戳作为订单号
         Format format = new SimpleDateFormat("yyyyMMddHHmmss");
         String string = format.format(new Date());
         order.setOrderid(string);
-        int insert = ordersMapper.insert(order);
-        return null;
+        order.setProname(proname);
+        order.setPicture(picture);
+        order.setUnitPrice(price);
+        order.setNum(num);
+        order.setCount(count);
+        ordersMapper.insert(order);
+        ding.setOrderid(string);
+        ding.setUserid(userid);
+        int res = dingMapper.insert(ding);
+        if (res != 1) {
+            return ServiceResponse.createError(1,"订单生成失败");
+        }
+        return ServiceResponse.createSuccess("提交订单成功",order);
     }
 
     // 查看订单
@@ -199,149 +213,31 @@ public class CartItemController {
         }
         System.out.println(dings);
         return dings;
-
     }
 
-    // 添加商品
+    // 取消订单
     @ResponseBody
-    @RequestMapping(value = "add")
-    public ServiceResponse addCartItem(Integer priceid, Integer num,Integer userid) {
-        Price price = priceMapper.selectByPrimaryKey(priceid);
-        public ServiceResponse addCartItem (Integer priceid, Integer num, Integer userid){
-            Price price = priceMapper.findPriceBypriId(priceid);
-            // 根据userId遍历购物车
-            List<CartItem> items = cartItemService.selectByUserId(userid);
-            // 遍利购物车
-            for (CartItem item : items) {
-                // 需要根据priceId判断购物车是否已有该商品
-                if (item.getPriceid() == priceid) {
-                    // 商品已在购物车 数量相加
-                    item.setNum(item.getNum() + num);
-                    int n = item.getNum();
-                    Price unit = priceMapper.findPriceBypriId(item.getPriceid());
-                    // 更改小计
-                    item.setCount(unit.getPrice() * n);
-                    // 更改数据库中商品数量和小计
-                    int res = cartItemService.updateItem(item);
-                    if (res != 1) {
-                        return ServiceResponse.createError(1, "添加购物车失败");
-                    }
-                    return ServiceResponse.createSuccess("添加成功");
-                }
-            }
-            CartItem newItem = new CartItem();
-            Product product = productMapper.selectByPrimaryKey(price.getProid());
-            // 商品名称
-            newItem.setProname(product.getProductname());
-
-            List<Picture> list = pictureMapper.selectPicture(product.getProductid());
-            // 商品图片
-            newItem.setPicture(list.get(0).getPicurl());
-            // 价格id
-            newItem.setPriceid(priceid);
-            // 数量
-            newItem.setNum(num);
-            // 小计
-            newItem.setCount(price.getPrice() * num);
-            //  用户
-            newItem.setUserid(userid);
-            // 添加到商品列表
-            int res = cartItemService.insert(newItem);
-
-            if (res == 1) {
-                ServiceResponse serviceResponse = ServiceResponse.createSuccess("添加购物车成功");
-                // 关联用户购物车
-                ShopCart shopCart = shopCartMapper.selectCart(userid);
-                if (shopCart == null) {
-                    ShopCart newCart = new ShopCart();
-                    newCart.setUserid(userid);
-                    shopCartMapper.insert(newCart);
-                    return serviceResponse;
-                }
-                return serviceResponse;
-            } else {
-                ServiceResponse serviceResponse = ServiceResponse.createError(1, "添加失败");
-                return serviceResponse;
-            }
-        }
-    }
-
-
-      // 修改商品数量
-    @ResponseBody
-    @RequestMapping(value = "num")
-    public ServiceResponse updateItem(Integer itemid,Integer num,Double price) {
-        CartItem item = cartItemService.selectByPrimaryKey(itemid);
-        item.setNum(num);
-        Double con = item.getCount();
-        item.setCount(price * num);
-        int res = cartItemService.updateItem(item);
-        if (res == 1) {
-            ShopCart shopCart = shopCartMapper.selectCart(item.getUserid());
-            Double com = shopCart.getCount();
-            shopCart.setCount(com - con + (price * num));
-            int result = shopCartMapper.updateCart(shopCart);
-            if (result != 1) {
-                return ServiceResponse.createError(1, "购物车数据更新失败");
-            } else {
-                return ServiceResponse.createSuccess("购物车数据更新成功");
-            }
-        }
-    }
-    @RequestMapping(value = "delete")
-    public ServiceResponse deleteItem(Integer userid, Integer priceid) {
-        CartItem cartItem = new CartItem();
-        cartItem.setUserid(userid);
-        cartItem.setPriceid(priceid);
-        CartItem item = cartItemService.findItemByproIdAndpriId(cartItem);
-        // 根据id移除item
-        int res = cartItemService.deleteItemById(item.getId());
+    @RequestMapping(value = "cancel")
+    public ServiceResponse cancel(String orderid) {
+        Ding ding = dingMapper.selectDingByorderId(orderid);
+        ding.setState("已取消");
+        int res = dingMapper.updateState(ding);
         if (res != 1) {
-            return ServiceResponse.createError(1, "商品移除失败");
+            return ServiceResponse.createError(1,"取消订单失败");
         }
-        return ServiceResponse.createError(1,"商品项更新失败");
-        
+        return  ServiceResponse.createSuccess("订单已取消",ding);
     }
 
-
-        // 移除商品
-        @ResponseBody
-        @RequestMapping(value = "delete")
-        public ServiceResponse deleteItem (Integer itemid){
-            // 根据id移除item
-            int res = cartItemService.deleteByPrimaryKey(itemid);
-            if (res != 1) {
-                return ServiceResponse.createError(1, "商品移除失败");
-            }
-            return ServiceResponse.createSuccess("移除成功");
+    // 删除订单
+    @ResponseBody
+    @RequestMapping(value = "deleteDing")
+    public ServiceResponse deleteDing(String orderid) {
+        ordersMapper.deleteByOrderid(orderid);
+        int res = dingMapper.deleteDing(orderid);
+        if (res != 1) {
+            return ServiceResponse.createError(1,"订单删除失败");
         }
-
-        // 清空购物车
-        @ResponseBody
-        @RequestMapping(value = "deleteAll")
-        public ServiceResponse deleteAll (Integer userid){
-            List<CartItem> items = cartItemService.selectByUserId(userid);
-            for (CartItem item : items) {
-                int res = cartItemService.deleteByPrimaryKey(item.getId());
-                items.remove(item);
-            }
-            if (items.size() != 0) {
-                return ServiceResponse.createError(1,"清空购物车失败");
-            }
-            if (items.size() != 0) {
-                return ServiceResponse.createError(1, "清空失败");
-            } else {
-            return ServiceResponse.createSuccess("清空购物车成功");
-            }
-
-<<<<<<< HEAD
+        return ServiceResponse.createSuccess("订单已删除");
     }
-=======
 
-////    <select id="findByOrderid" resultType="Order" parameterType="int" >
-//    select * from order
-//    where orderid = #{orderid}
-//  </select>
-    //List<Order> findByOrderid(String orderid);
 }
->>>>>>> fc4207f6b46b295e77778ed1312c9a25f8f463cc

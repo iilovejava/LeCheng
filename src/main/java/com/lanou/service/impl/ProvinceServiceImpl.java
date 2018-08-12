@@ -24,4 +24,9 @@ public class ProvinceServiceImpl implements ProvinceService {
         return list;
     }
 
+    public String findProvince(String code) {
+        Province province = provinceMapper.findProvince(code);
+        return province.getName();
+    }
+
 }

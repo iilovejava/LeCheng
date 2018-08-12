@@ -22,4 +22,9 @@ public class AreaServiceImpl implements AreaService{
         return list;
     }
 
+    public String findBycode(String code) {
+        Area area = areaMapper.findBycode(code);
+        return area.getName();
+    }
+
 }

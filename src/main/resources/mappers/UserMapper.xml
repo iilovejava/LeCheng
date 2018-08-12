@@ -8,11 +8,12 @@
         <result column="userName" property="username" jdbcType="VARCHAR"/>
         <result column="userGender" property="usergender" jdbcType="INTEGER"/>
         <result column="userBirthday" property="userbirthday" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
         <result column="userQQ" property="userqq" jdbcType="INTEGER"/>
         <result column="userAddress" property="useraddress" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    userId, userPhone, userPassword, userName, userGender, userBirthday, userQQ, userAddress
+    userId, userPhone, userPassword, userName, tel, userGender, userBirthday, userQQ, userAddress
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -49,6 +50,9 @@
             </if>
             <if test="usergender != null">
                 userGender,
+            </if>
+            <if test="tel != null">
+                tel,
             </if>
             <if test="userbirthday != null">
                 userBirthday,
@@ -102,6 +106,9 @@
             <if test="usergender != null">
                 userGender = #{usergender,jdbcType=INTEGER},
             </if>
+            <if test="tel != null">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
             <if test="userbirthday != null">
                 userBirthday = #{userbirthday,jdbcType=VARCHAR},
             </if>
@@ -147,12 +154,12 @@
         SELECT userId FROM users WHERE  userphone = #{userphone}
     </select>
 
-    <update id="updateUser" parameterType="User" >
+    <update id="updateUser" parameterType="User">
         update users
         SET
-            userphone = #{userphone},
             username = #{username},
             usergender = #{usergender},
+            tel = #{tel},
             userbirthday = #{userbirthday},
             userqq = #{userqq},
             useraddress = #{useraddress}

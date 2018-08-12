@@ -21,4 +21,9 @@ public class CityServiceImpl implements CityService{
         List<City> list = cityMapper.findByCode(province);
         return list;
     }
+
+    public String findCityByCode(String code) {
+        City city = cityMapper.findCityByCode(code);
+        return city.getName();
+    }
 }

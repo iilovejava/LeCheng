@@ -11,11 +11,21 @@ public class User {
 
     private Integer usergender;
 
+    private String tel;
+
     private String userbirthday;
 
     private Integer userqq;
 
     private String useraddress;
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
 
     public Integer getUserid() {
         return userid;
@@ -79,5 +89,20 @@ public class User {
 
     public void setUseraddress(String useraddress) {
         this.useraddress = useraddress == null ? null : useraddress.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", userphone='" + userphone + '\'' +
+                ", userpassword='" + userpassword + '\'' +
+                ", username='" + username + '\'' +
+                ", usergender=" + usergender +
+                ", tel='" + tel + '\'' +
+                ", userbirthday='" + userbirthday + '\'' +
+                ", userqq=" + userqq +
+                ", useraddress='" + useraddress + '\'' +
+                '}';
     }
 }

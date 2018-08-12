@@ -11,5 +11,7 @@ import java.util.List;
 public interface AreaService {
     List<Area> findByArea(String city);
 
+    String findBycode(String code);
+
 
 }

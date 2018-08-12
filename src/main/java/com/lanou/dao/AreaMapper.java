@@ -19,4 +19,6 @@ public interface AreaMapper {
 
     List<Area> findByArea(String city);
 
+    Area findBycode(String code);
+
 }

@@ -37,6 +37,7 @@
             <mvc:exclude-mapping path="/user/allCity"/>
             <mvc:exclude-mapping path="/user/allArea"/>
             <mvc:exclude-mapping path="/user/message"/>
+			<mvc:exclude-mapping path="/user/usermsg"/>
             <mvc:exclude-mapping path="/user/updatePassword"/>
             <mvc:exclude-mapping path="/user/comment"/>
             <mvc:exclude-mapping path="/user/addComment"/>

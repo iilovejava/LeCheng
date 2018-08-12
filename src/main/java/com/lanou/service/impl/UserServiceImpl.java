@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService{
         return ServiceResponse.createError(1,"注册失败");
     }
 
+
+
     // 查询用户是否唯一
     public ServiceResponse<String> findUserByPhone(String userPhone){
         User user = userMapper.findUserByPhone(userPhone);
@@ -63,13 +65,28 @@ public class UserServiceImpl implements UserService{
 
     // 修改信息
     public boolean updateUser(User user) {
-        boolean user1 = userMapper.updateUser(user);
-        return user1;
+        User u = userMapper.selectByPrimaryKey(user.getUserid());
+//        user.setUserphone(u.getUserphone());
+//        user.setUserpassword(u.getUserpassword());
+        if (u != null) {
+            int res = userMapper.updateUser(user);
+            System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+            System.out.println(res);
+            if (res != 1) {
+                return false;
+            }
+            return true;
+        }
+
+        return false;
     }
 
     // 修改密码
-    public boolean updatePassword(User user) {
-        boolean user1 =userMapper.updatePassword(user);
-        return user1;
+    public boolean updatePassword(Integer userid,String newpassword) {
+
+            User user = userMapper.selectByPrimaryKey(userid);
+            user.setUserpassword(newpassword);
+            boolean user1 =userMapper.updatePassword(user);
+            return user1;
     }
 }

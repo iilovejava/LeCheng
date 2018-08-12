@@ -8,16 +8,12 @@
     <result column="productUrl" property="producturl" jdbcType="VARCHAR" />
     <result column="productDes" property="productdes" jdbcType="VARCHAR" />
     <result column="cateId" property="cateid" jdbcType="INTEGER" />
+
   </resultMap>
   <sql id="Base_Column_List" >
     productId, productName, des, productUrl, productDes, cateId
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from product
-    where productId = #{productid,jdbcType=INTEGER}
-  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from product
     where productId = #{productid,jdbcType=INTEGER}
@@ -110,7 +106,12 @@
       where cateId = #{0}
   </select>
 
-
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </select>
   <!-- 模糊查询 -->
   <select id="selectProductsLikeName" resultMap="BaseResultMap" parameterType="Product">
       select * from product

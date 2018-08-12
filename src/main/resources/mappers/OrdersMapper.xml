@@ -119,4 +119,9 @@
       select * from orders
       where orderid = #{orderid}
   </select>
+
+  <delete id="deleteByOrderid" parameterType="String">
+    delete from orders
+    where orderid = #{orderid}
+  </delete>
 </mapper>

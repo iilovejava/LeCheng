@@ -30,12 +30,7 @@ import static org.apache.ibatis.ognl.DynamicSubscript.all;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private ProvinceService provinceService;
-    @Autowired
-    private CityService cityService;
-    @Autowired
-    private AreaService areaService;
+
     @Autowired
     private CommentService commentService;
     @Autowired
@@ -61,9 +56,9 @@ public class UserController {
         ServiceResponse<String> serviceResponse = userService.findUserByPhone(user.getUserphone());
         if (serviceResponse.getErrorcode() != 0) {
 
-            if (!code.equals(s)) {
-                return ServiceResponse.createError(1, "注册失败,验证码错误");
-            }
+//            if (!code.equals(s)) {
+//                return ServiceResponse.createError(1, "注册失败,验证码错误");
+//            }
             ServiceResponse<String> serviceResponse1 = userService.userRegister(user);
             return ServiceResponse.createSuccess("注册成功", user);
         } else {
@@ -132,63 +127,44 @@ public class UserController {
     }
 
 
-    // 查询省份
-    @ResponseBody
-    @RequestMapping(value = "allProvince")
-    public List<Province> findAll() {
-        List<Province> all = provinceService.findAll();
-        return all;
-    }
-
-    // 查询城市
-    @ResponseBody
-    @RequestMapping(value = "allCity")
-    public List<City> findByCode(String code) {
-        List<City> all = cityService.findByCode(code);
-        return all;
-    }
-
-    // 查询县级市
-    @ResponseBody
-    @RequestMapping(value = "allArea")
-    public List<Area> findByArea(String code) {
-        List<Area> all = areaService.findByArea(code);
-        return all;
-    }
 
 
     // 更新个人信息
     @ResponseBody
     @RequestMapping(value = "message")
     public ServiceResponse<String> message(User user){
-        boolean b = userService.updateUser(user);
-        if (b){
+        boolean res = userService.updateUser(user);
+        if (res == true){
             return ServiceResponse.createSuccess("修改成功");
         }
-        return ServiceResponse.createError(1,"修改失败");
+        return ServiceResponse.createError(1,"用户信息有误");
+    }
+
+    // 编辑个人信息
+    @ResponseBody
+    @RequestMapping(value = "usermsg")
+    public ServiceResponse usermsg(Integer userid) {
+        User user = userService.findById(userid);
+        return ServiceResponse.createSuccess("用户编辑",user);
     }
 
     // 修改密码
     @ResponseBody
     @RequestMapping(value = "updatePassword")
-
-    public ServiceResponse<String> updatePassword(Integer userid,String newpassword,String newpassword2){
-        System.out.println(userid);
-        System.out.println(newpassword);
-        System.out.println(newpassword2);
-        if (newpassword.equals(newpassword2)){
-            User user = new User();
-            user.setUserid(userid);
-            user.setUserpassword(newpassword);
-            boolean b = userService.updatePassword(user);
-            if (b){
-                return ServiceResponse.createSuccess("修改成功");
+    public ServiceResponse<String> updatePassword(Integer userid,String newpass, String newword){
+        System.out.println("****************************************");
+        System.out.println(newpass);
+        System.out.println(newword);
+        if (newword.equals(newpass)) {
+            boolean res = userService.updatePassword(userid,newpass);
+            if (res) {
+                return ServiceResponse.createSuccess("密码修改成功");
             }
-            return ServiceResponse.createError(1,"修改失败");
-
+            return ServiceResponse.createError(1,"密码修改失败");
         }
 
-        return ServiceResponse.createError(1,"两次密码输入不正确");
+        return ServiceResponse.createError(1,"两次输入密码不一致,修改失败");
+
     }
 
 

@@ -84,4 +84,9 @@
   <select id="findByArea" resultType="Area" parameterType="String">
     SELECT * FROM area WHERE citycode = #{code}
   </select>
+
+  <select id="findBycode" resultType="Area" parameterType="String">
+    select * from area
+    where code = #{code}
+  </select>
 </mapper>

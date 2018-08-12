@@ -19,4 +19,6 @@ public interface ProvinceMapper {
 
 
     List<Province> findAll();
+
+    Province findProvince(String code);
 }

@@ -18,4 +18,6 @@ public interface OrdersMapper {
     int updateByPrimaryKey(Orders record);
 
     List<Orders> findByOrderid(String orderid);
+
+    int deleteByOrderid(String orderid);
 }

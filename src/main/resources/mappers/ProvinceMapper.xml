@@ -72,4 +72,9 @@
   <select id="findAll" resultType="Province">
         SELECT * FROM province
   </select>
+
+  <select id="findProvince" parameterType="String" resultType="Province">
+    select * from province
+    where code = #{0}
+  </select>
 </mapper>

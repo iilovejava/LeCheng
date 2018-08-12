@@ -84,4 +84,9 @@
   <select id="findByCode" resultType="City" parameterType="String">
     SELECT * FROM city WHERE provincecode = #{code}
   </select>
+
+  <select id="findCityByCode" resultType="City" parameterType="String">
+    select * from city
+    where code = #{citycode}
+  </select>
 </mapper>

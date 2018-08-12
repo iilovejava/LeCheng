@@ -10,4 +10,6 @@ import java.util.List;
 public interface CityService {
 
     List<City> findByCode(String province);
+
+    String findCityByCode(String code);
 }

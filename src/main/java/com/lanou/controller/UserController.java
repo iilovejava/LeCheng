@@ -56,9 +56,9 @@ public class UserController {
         ServiceResponse<String> serviceResponse = userService.findUserByPhone(user.getUserphone());
         if (serviceResponse.getErrorcode() != 0) {
 
-//            if (!code.equals(s)) {
-//                return ServiceResponse.createError(1, "注册失败,验证码错误");
-//            }
+            if (!code.equals(s)) {
+                return ServiceResponse.createError(1, "注册失败,验证码错误");
+            }
             ServiceResponse<String> serviceResponse1 = userService.userRegister(user);
             return ServiceResponse.createSuccess("注册成功", user);
         } else {

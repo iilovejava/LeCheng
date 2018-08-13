@@ -182,7 +182,74 @@ public class CartItemServiceImpl implements CartItemService {
         return res;
     }
 
+    // 直接购买生成订单
+    public Orders buyding(String proname, String picture, Double price, Integer num, Double count, Integer userid) {
+        Ding ding = new Ding();
+        Orders order = new Orders();
+        // 时间戳作为订单号
+        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String string = format.format(new Date());
+        order.setOrderid(string);
+        order.setProname(proname);
+        order.setPicture(picture);
+        order.setUnitPrice(price);
+        order.setNum(num);
+        order.setCount(count);
+        ordersMapper.insert(order);
+        ding.setOrderid(string);
+        ding.setUserid(userid);
+        int res = dingMapper.insert(ding);
+        if (res == 1) {
+            return order;
+        }
+        return null;
 
+    }
+
+    // 查看用户订单
+    public List<Ding> findOrder(Integer userid) {
+        List<Ding> dings = dingMapper.findByUserid(userid);
+        Double amount = 0D;
+        for (Ding ding : dings) {
+            String orderid = ding.getOrderid();
+            List<Orders> orders = ordersMapper.findByOrderid(orderid);
+            System.out.println(orders);
+            for (Orders order : orders) {
+                order.setUnitPrice(order.getCount() / order.getNum());
+                // 获得描述
+                Price price = priceMapper.findPriceBypriId(order.getPriceid());
+                String one;
+                String two;
+                String three;
+                Value v1 = valueMapper.selectByPrimaryKey(price.getOne());
+                if (v1 == null){
+                    one = " ";
+                } else {
+                    one = v1.getValue();
+                }
+                Value v2 = valueMapper.selectByPrimaryKey(price.getTwo());
+                if (v2 == null){
+                    two = " ";
+                } else {
+                    two = v2.getValue();
+                }
+                Value v3 = valueMapper.selectByPrimaryKey(price.getThree());
+                if (v3 == null){
+                    three = " ";
+                } else {
+                    three = v3.getValue();
+                }
+                // 描述
+                order.setNorms(one +" " + two + " " + three);
+
+                // 总计
+                amount += order.getCount();
+            }
+            ding.setCount(amount);
+            ding.setOrders(orders);
+        }
+        return dings;
+    }
 
 
     // 根据id获得cartItem

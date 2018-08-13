@@ -165,7 +165,7 @@
 
   </dependencies>
   <build>
-    <finalName>lck-ssm</finalName>
+    <finalName>lecheng</finalName>
     <plugins>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>

@@ -2,7 +2,6 @@ package com.lanou.controller;
 
 
 import com.lanou.dao.OrdersMapper;
-import com.lanou.dao.CartItemMapper;
 
 import com.lanou.dao.*;
 import com.lanou.model.*;
@@ -13,10 +12,7 @@ import com.lanou.model.CartItem;
 import com.lanou.model.ShopCart;
 
 import com.lanou.service.CartItemService;
-import com.lanou.model.ShopCart;
 
-import com.lanou.service.CartItemService;
-import com.lanou.service.DingService;
 import com.lanou.util.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +20,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 @CrossOrigin
@@ -38,25 +29,13 @@ import java.util.List;
 public class CartItemController {
     @Autowired
     private CartItemService cartItemService;
-    @Autowired
-    private DingService dingService;
 
-    @Autowired
-    private CartItemMapper cartItemMapper;
     @Autowired
     private ShopCartMapper shopCartMapper;
     @Autowired
     private OrdersMapper ordersMapper;
     @Autowired
     private DingMapper dingMapper;
-    @Autowired
-    private ProductMapper productMapper;
-    @Autowired
-    private ValueMapper valueMapper;
-    @Autowired
-    private PriceMapper priceMapper;
-    @Autowired
-    private PictureMapper pictureMapper;
 
 
     // 查看购物车
@@ -145,22 +124,8 @@ public class CartItemController {
     @ResponseBody
     @RequestMapping(value = "buy")
     public ServiceResponse buyding(String proname, String picture, Double price, Integer num, Double count, Integer userid) {
-        Ding ding = new Ding();
-        Orders order = new Orders();
-        // 时间戳作为订单号
-        Format format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String string = format.format(new Date());
-        order.setOrderid(string);
-        order.setProname(proname);
-        order.setPicture(picture);
-        order.setUnitPrice(price);
-        order.setNum(num);
-        order.setCount(count);
-        ordersMapper.insert(order);
-        ding.setOrderid(string);
-        ding.setUserid(userid);
-        int res = dingMapper.insert(ding);
-        if (res != 1) {
+        Orders order = cartItemService.buyding(proname,picture,price,num,count,userid);
+        if (order == null) {
             return ServiceResponse.createError(1,"订单生成失败");
         }
         return ServiceResponse.createSuccess("提交订单成功",order);
@@ -169,49 +134,8 @@ public class CartItemController {
     // 查看订单
     @ResponseBody
     @RequestMapping(value = "findding")
-    public List<Ding> findding(Integer userid) {
-        System.out.println(userid);
-        List<Ding> dings = dingService.findByUserid(userid);
-        Double amount = 0D;
-        for (Ding ding : dings) {
-            String orderid = ding.getOrderid();
-            List<Orders> orders = ordersMapper.findByOrderid(orderid);
-            System.out.println(orders);
-            for (Orders order : orders) {
-                order.setUnitPrice(order.getCount() / order.getNum());
-                // 获得描述
-                Price price = priceMapper.findPriceBypriId(order.getPriceid());
-                String one;
-                String two;
-                String three;
-                Value v1 = valueMapper.selectByPrimaryKey(price.getOne());
-                if (v1 == null){
-                    one = " ";
-                } else {
-                    one = v1.getValue();
-                }
-                Value v2 = valueMapper.selectByPrimaryKey(price.getTwo());
-                if (v2 == null){
-                    two = " ";
-                } else {
-                    two = v2.getValue();
-                }
-                Value v3 = valueMapper.selectByPrimaryKey(price.getThree());
-                if (v3 == null){
-                    three = " ";
-                } else {
-                    three = v3.getValue();
-                }
-                // 描述
-                order.setNorms(one +" " + two + " " + three);
-
-                // 总计
-                amount += order.getCount();
-            }
-            ding.setCount(amount);
-            ding.setOrders(orders);
-        }
-        System.out.println(dings);
+        public List<Ding> findding(Integer userid) {
+            List<Ding> dings = cartItemService.findOrder(userid);
         return dings;
     }
 

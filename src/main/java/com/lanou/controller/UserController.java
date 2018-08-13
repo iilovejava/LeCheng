@@ -82,7 +82,7 @@ public class UserController {
         System.out.println(code);
         if (serviceResponse.getErrorcode() == 0) {
             // 判断验证码是否正确
-            //if (code.equals(s)) {
+            if (code.equals(s)) {
                 // 处理cookie 将账号密码拼接进去
                 Cookie cookie = new Cookie("user", user.getUserphone() + "&" + user.getUserpassword());
                 cookie.setPath("/");
@@ -105,10 +105,10 @@ public class UserController {
 
 
                 return ServiceResponse.createSuccess("登录成功", user);
-//            } else {
-//                // 登录失败
-//                return ServiceResponse.createError(1, "验证码错误,登录失败");
-//            }
+            } else {
+                // 登录失败
+                return ServiceResponse.createError(1, "验证码错误,登录失败");
+            }
 
         } else {
             // 登录失败
@@ -152,9 +152,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "updatePassword")
     public ServiceResponse<String> updatePassword(Integer userid,String newpass, String newword){
-        System.out.println("****************************************");
-        System.out.println(newpass);
-        System.out.println(newword);
+
         if (newword.equals(newpass)) {
             boolean res = userService.updatePassword(userid,newpass);
             if (res) {
